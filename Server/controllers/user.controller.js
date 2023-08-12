@@ -1,25 +1,36 @@
+const { randomInt } = require('crypto')
 const db = require('../models')
 const User = db.user
 const op = db.Sequelize.Op
 const { v4: uuidv4 } = require('uuid')
-exports.create = (req, res) => {
 
-    const { fName, userId, email, constituencyId, nationalId } = req.body
+
+exports.create = (login) => {
+    const { contribuyente } = login
+    const { nombreComercial, identificacion, tipoIdentificacion } = contribuyente
+    // generar random number para constituencyId 
+
+    const constituencyId = randomInt(10000000, 99999999)
 
     const USER = {
-        userId: userId,
-        constituencyId: constituencyId,
-        fName: fName,
-        nationalId: nationalId,
-        email: email
+        userId: uuidv4(),
+        constituencyId: 1,
+        fName: nombreComercial,
+        nationalId: identificacion,
+        email: "user@test.com"
     }
 
-    User.create(USER)
-        .then(r => res.send(r))
-        .catch(err => {
-            console.log(err)
-            res.status(500).send({ message: err.message || 'Error creating Election' })
-        })
+
+
+    // IF USER EXISTS RETURN USER ELSE CREATE USER 
+
+    if (USER) {
+        return USER
+    }
+    else {
+        return User.create(USER)
+    }
+
 
 }
 
