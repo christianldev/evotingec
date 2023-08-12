@@ -12,7 +12,6 @@ export const authenticateUser = (data) => {
 				headers: {nationalId: nationalId},
 			})
 			.then((r) => {
-				console.log(r);
 				resolve(r);
 			})
 			.catch((err) => {

@@ -20,7 +20,7 @@ const HomePage = () => {
 		password: '',
 		email: '',
 		constituencyId: '',
-		otp: '',
+		// otp: '',
 	};
 
 	let Progress = {
@@ -81,7 +81,6 @@ const HomePage = () => {
 						msg: 'Registration failed',
 						warn: true,
 					});
-					console.log(err);
 				});
 		} else {
 			setProgress({
@@ -97,25 +96,6 @@ const HomePage = () => {
 		setShowProgress(true);
 		if (login.nationalId !== '' && login.password !== '') {
 			setProgress({...progress, msg: 'Validando...'});
-			authenticateUser(login)
-				.then((r) => {
-					if (r.status === 200) {
-						// continue with voter login
-						setProgress({
-							...progress,
-							msg: 'Autenticando...',
-						});
-					} else {
-						setProgress({
-							...progress,
-							warn: true,
-							msg: 'Credenciales invalidas',
-						});
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-				});
 			voterLogin(login)
 				.then((r) => {
 					console.log(r);

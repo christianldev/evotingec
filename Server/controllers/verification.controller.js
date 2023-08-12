@@ -2,7 +2,8 @@ const nodemailer = require('nodemailer');
 
 exports.sendMail = (req, res) => {
 
-    const {email} = req.body;
+    const { email } = req.body;
+
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
 
@@ -16,6 +17,7 @@ exports.sendMail = (req, res) => {
             pass: process.env.GMAIL_PASSWORD,
         },
     });
+
 
     const mailOptions = {
         from: process.env.GMAIL_EMAIL,
@@ -40,11 +42,11 @@ exports.sendMail = (req, res) => {
 }
 
 exports.verifyOTP = (req, res) => {
-    const {otp} = req.body
-    console.log(otp,req.session.verificationCode)
+    const { otp } = req.body
+    console.log(otp, req.session.verificationCode)
     if (otp === req.session.verificationCode) {
-        res.status(200).send({status: true, msg: 'Email verification successful!'});
+        res.status(200).send({ status: true, msg: 'Email verification successful!' });
     } else {
-        res.status(404).send({status: false, msg: 'Email verification failed!'});
+        res.status(404).send({ status: false, msg: 'Email verification failed!' });
     }
 }

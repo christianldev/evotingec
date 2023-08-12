@@ -72,7 +72,7 @@ require('./routes/constituency.routes')(app)
 require('./routes/candidate.routes')(app)
 require('./routes/user.routes')(app)
 require('./routes/verification.routes')(app)
-require('./routes/auth.routes')(app)
+
 /*
 * election/
 * election/id TODO

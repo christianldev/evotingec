@@ -1,36 +1,47 @@
-const { randomInt } = require('crypto')
+
+
 const db = require('../models')
 const User = db.user
 const op = db.Sequelize.Op
 const { v4: uuidv4 } = require('uuid')
+const { Authenticate } = require('./auth.controller')
+const axios = require('axios');
 
 
-exports.create = (login) => {
-    const { contribuyente } = login
-    const { nombreComercial, identificacion, tipoIdentificacion } = contribuyente
-    // generar random number para constituencyId 
+exports.create = async (req, res) => {
 
-    const constituencyId = randomInt(10000000, 99999999)
+    const { fName, userId, email, constituencyId, nationalId } = req.body
+
+
+    if (!fName || !userId || !email || !constituencyId || !nationalId) {
+        res.status(400).send({ message: 'Content can not be empty' })
+        return
+    }
+
+    const response = await axios.get(`https://srienlinea.sri.gob.ec/movil-servicios/api/v1.0/deudas/porIdentificacion/${nationalId}/?tipoPersona=N`)
+    if (response.status !== 200) {
+        return res.status(500).send({ message: 'Credenciales incorrectas' })
+    }
+
+    const { nombreComercial } = response.data.contribuyente
+
+    console.log(response)
+
 
     const USER = {
-        userId: uuidv4(),
-        constituencyId: 1,
+        userId: userId,
+        constituencyId: constituencyId,
         fName: nombreComercial,
-        nationalId: identificacion,
-        email: "user@test.com"
+        nationalId: nationalId,
+        email: email
     }
 
-
-
-    // IF USER EXISTS RETURN USER ELSE CREATE USER 
-
-    if (USER) {
-        return USER
-    }
-    else {
-        return User.create(USER)
-    }
-
+    User.create(USER)
+        .then(r => res.send(r))
+        .catch(err => {
+            console.log(err)
+            res.status(500).send({ message: err.message || 'Error creating Election' })
+        })
 
 }
 
