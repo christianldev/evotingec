@@ -52,7 +52,6 @@ const RegisterComponent = ({
 
 	const handleVerifyOTP = () => {
 		verifyOTP(OTP).then((r) => {
-			console.log(r);
 			setVerificationStatus(true);
 		});
 	};
@@ -91,26 +90,7 @@ const RegisterComponent = ({
 								</label>
 							</div>
 						</div>
-						<div className="col-12">
-							<div className="form-floating mb-1 rounded-2 border border-primary">
-								<input
-									type="text"
-									className="form-control"
-									id="fName"
-									placeholder="Full name"
-									value={voter.fName}
-									onChange={(event) =>
-										setVoter({
-											...voter,
-											fName: event.target.value,
-										})
-									}
-								/>
-								<label htmlFor="floatingPassword">
-									Full Name
-								</label>
-							</div>
-						</div>
+
 						<div className="col-6">
 							<div className="form-floating mb-1 rounded-2 border border-primary">
 								<input

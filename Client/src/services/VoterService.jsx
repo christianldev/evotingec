@@ -7,7 +7,6 @@ const ws = new Web3Service();
 
 export const registerVoter = (data) => {
 	let user = null;
-	console.log(data);
 	return new Promise((resolve, reject) => {
 		axios
 			.post(API + '/user', data)
@@ -22,7 +21,6 @@ export const registerVoter = (data) => {
 								resolve(true);
 							})
 							.catch((err) => {
-								console.log(user);
 								axios
 									.delete(API + `/user/${user.id}`)
 									.then((r) => {
@@ -31,13 +29,15 @@ export const registerVoter = (data) => {
 									.catch((err) => {
 										console.log(err);
 									});
-								reject(false);
+								console.log(err.response.data.message);
+								reject(err.response.data.message);
 							});
 					});
 				});
 			})
 			.catch((err) => {
-				reject(false);
+				console.log(err.response.data.message);
+				reject(err.response.data.message);
 				if (user) {
 					axios
 						.delete(API + `/user/${user.id}`)
@@ -143,7 +143,6 @@ export const getActiveElectionsUser = async (
 };
 
 export const sentVerificationCode = (email) => {
-	console.log(email);
 	return axios.post(
 		API + '/sendVerificationCode',
 		{email: email},

@@ -10,23 +10,21 @@ import {
 	voterLogin,
 } from '../../services/VoterService';
 import ProgressComponent from '../../components/ProgressComponent';
-import {authenticateUser} from '../../services/AuthService';
 
 const HomePage = () => {
 	let Voter = {
 		userId: '',
-		fName: '',
 		nationalId: '',
 		password: '',
 		email: '',
 		constituencyId: '',
-		// otp: '',
+		otp: '',
 	};
 
 	let Progress = {
 		success: false,
 		warn: false,
-		msg: 'Loading...',
+		msg: 'Cargando...',
 	};
 
 	const [register, setRegister] = useState(false);
@@ -43,52 +41,51 @@ const HomePage = () => {
 	};
 
 	const handleRegister = (voter) => {
+		console.log(voter);
 		rModal.hide();
 		setShowProgress(true);
 		if (
 			voter.userId !== '' &&
-			voter.fName !== '' &&
 			voter.nationalId !== '' &&
 			voter.password !== '' &&
 			voter.email !== '' &&
 			voter.constituencyId !== ''
 		) {
-			setProgress({...progress, msg: 'Registering Voter'});
-			registerVoter(voter)
-				.then((r) => {
-					if (r) {
-						setVoter(Voter);
+			setProgress({...progress, msg: 'Registrando...'});
+			try {
+				registerVoter(voter)
+					.then((r) => {
+						console.log(r);
 						setProgress({
 							...progress,
 							success: true,
-							msg: 'Voter Registered',
+							msg: 'Registro exitoso',
 						});
-						let i = setInterval(() => {
-							handleProgressClose();
-							clearInterval(i);
-						}, 3000);
-					} else {
+						setVoter(Voter);
+						setRegister(false);
+						rModal.hide();
+					})
+					.catch((err) => {
+						console.log(err);
 						setProgress({
 							...progress,
-							msg: 'Registration failed',
 							warn: true,
+							msg: err,
 						});
-					}
-				})
-				.catch((err) => {
-					setProgress({
-						...progress,
-						msg: 'Registration failed',
-						warn: true,
 					});
+			} catch (err) {
+				setProgress({
+					...progress,
+					warn: true,
+					msg: err,
 				});
+			}
 		} else {
 			setProgress({
 				...progress,
-				msg: 'Please fill all the details...',
+				msg: 'Datos incompletos',
 				warn: true,
 			});
-			rModal.show();
 		}
 	};
 
@@ -114,7 +111,7 @@ const HomePage = () => {
 						setProgress({
 							...progress,
 							warn: true,
-							msg: 'Cuenta no verificad',
+							msg: 'Cuenta no verificada',
 						});
 					} else {
 						navigate('user');
@@ -127,7 +124,7 @@ const HomePage = () => {
 			setProgress({
 				...progress,
 				warn: true,
-				msg: 'Please fill all the details',
+				msg: 'Por favor ingrese todos los datos',
 			});
 		}
 	};
