@@ -7,7 +7,9 @@ const LoginComponent = ({register, onLogin}) => {
 	return (
 		<div className="container-fluid">
 			<div className="container">
-				<div className="h1 mb-4 mt-3 fw-bold">Login</div>
+				<div className="h1 mb-4 mt-3 fw-bold">
+					Bienvenido
+				</div>
 
 				<div className="form-floating mb-3">
 					<input
@@ -23,7 +25,7 @@ const LoginComponent = ({register, onLogin}) => {
 							})
 						}
 					/>
-					<label htmlFor="floatingInput">National Id</label>
+					<label htmlFor="floatingInput">Cedula</label>
 				</div>
 				<div className="form-floating">
 					<input
@@ -39,23 +41,25 @@ const LoginComponent = ({register, onLogin}) => {
 							})
 						}
 					/>
-					<label htmlFor="floatingPassword">Password</label>
+					<label htmlFor="floatingPassword">
+						Contraseña
+					</label>
 				</div>
 				<div className="d-flex justify-content-end">
 					<button
 						type="button"
-						className="btn btn-primary mt-3"
+						className="btn bg-blue-600 mt-3 text-gray-200 hover:bg-blue-700 hover:text-gray-100 w-full"
 						onClick={() => onLogin(login)}>
-						Login
+						Iniciar sesion
 					</button>
 				</div>
 				<div className="reg-txt">
-					Don't have an account
+					No tienes una cuenta?
 					<button
 						type="button"
 						className="btn btn-link"
 						onClick={() => register()}>
-						Register
+						Registrarse
 					</button>
 				</div>
 			</div>

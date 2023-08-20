@@ -153,7 +153,7 @@ const HomePage = () => {
 					<div className="container-fluid">
 						<a className="navbar-brand">
 							<i className="fa-solid fa-check-to-slot fs-3 px-2 text-dark opacity-75"></i>
-							E-Ballot
+							Decide Ya
 						</a>
 						<div className="d-flex" role="search">
 							<ul className="navbar-nav">

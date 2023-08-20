@@ -1133,9 +1133,17 @@
     "name": "solc",
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x81D6256C080444D9DE0aec1D7e1A43a466C63F23",
+      "transactionHash": "0xa50a6a878ec2c1f7bc585968951cbabf04045a12132fdbe7c440279fe55e5328"
+    }
+  },
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-08-12T20:12:09.423Z",
+  "updatedAt": "2023-08-19T22:08:24.375Z",
+  "networkType": "ethereum",
   "devdoc": {
     "details": "Library for managing addresses assigned to a Role.",
     "kind": "dev",

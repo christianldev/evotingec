@@ -10,25 +10,30 @@ const axios = require('axios');
 
 exports.create = async (req, res) => {
 
-    const { userId, email, constituencyId, nationalId, password } = req.body
+    const { userId, email, birthDate, constituencyId, nationalId, password } = req.body
 
     try {
 
-        if (!userId || !email || !constituencyId || !nationalId || !password) {
+        if (!userId || !email || !birthDate || !constituencyId || !nationalId || !password) {
             return res.status(400).send({ message: 'Faltan datos' })
 
         }
 
         const response = await axios.get(`https://srienlinea.sri.gob.ec/movil-servicios/api/v1.0/deudas/porIdentificacion/${nationalId}/?tipoPersona=N`)
 
-        if (response.status === 200) {
+        if (response.status !== 200) {
+            return res.status(500).send({ message: 'Cedula incorrecta' })
+        }
+
+        else if (response.status === 200) {
             const { nombreComercial } = response.data.contribuyente
             const USER = {
                 userId: userId,
                 constituencyId: constituencyId,
                 fName: nombreComercial,
                 nationalId: nationalId,
-                email: email
+                email: email,
+                birthDate: birthDate,
             }
 
             // search if email and nationalId exists in database 
@@ -49,8 +54,8 @@ exports.create = async (req, res) => {
         }
 
     } catch (error) {
-
-        return res.status(500).send({ message: 'Cedula incorrecta' })
+        console.log(error)
+        return res.status(500).send({ message: error.response?.data.mensaje })
 
     }
 
