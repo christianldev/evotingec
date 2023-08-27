@@ -129,6 +129,25 @@ const RegisterComponent = ({
 								<label htmlFor="password1">Password</label>
 							</div>
 						</div>
+						<div className="col-12">
+							<div className="form-floating mb-1  rounded-2 border border-primary">
+								<input
+									type="date"
+									className="form-control"
+									id="birthDate"
+									value={voter.birthDate}
+									onChange={(event) =>
+										setVoter({
+											...voter,
+											birthDate: event.target.value,
+										})
+									}
+								/>
+								<label htmlFor="password1">
+									Fecha de nacimiento
+								</label>
+							</div>
+						</div>
 
 						<div
 							className={
@@ -193,7 +212,7 @@ const RegisterComponent = ({
 							</>
 						) : null}
 						{!otpSent ? (
-							<div className="col-3 d-flex justify-content-center align-items-center ml-3">
+							<div className="col-3 m-0 p-0 d-flex justify-content-center align-items-center">
 								<button
 									id="send-otp"
 									className="btn btn-dark"

@@ -10,7 +10,9 @@ const axios = require('axios');
 
 exports.create = async (req, res) => {
 
-    const { userId, email, birthDate, constituencyId, nationalId, password } = req.body
+    const { userId, email, constituencyId, birthDate, nationalId, password } = req.body
+
+
 
     try {
 

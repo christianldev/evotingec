@@ -17,7 +17,9 @@ const AdminPage = () => {
 
 	const [isAdmin, setIsAdmin] = useState(false);
 	const [page, setPage] = useState(0);
-	const [title, setTitle] = useState('Admin Dashboard');
+	const [title, setTitle] = useState(
+		'Panel administrativo'
+	);
 	const [login, setLogin] = useState(false);
 	const [prg, setPrg] = useState(_prg);
 	const navigate = useNavigate();
@@ -126,7 +128,7 @@ const AdminPage = () => {
 							role="tab"
 							onClick={() => handleTabChange(0)}>
 							<i className="fa-solid fa-gauge-high"></i>
-							&nbsp; Inicio
+							&nbsp; Dashboard
 						</button>
 						<button
 							className={
@@ -137,7 +139,7 @@ const AdminPage = () => {
 							role="tab"
 							onClick={() => handleTabChange(1)}>
 							<i className="fa-solid fa-check-to-slot"></i>{' '}
-							&nbsp;Elecciones
+							&nbsp;Elections
 						</button>
 						<button
 							className={
@@ -148,7 +150,7 @@ const AdminPage = () => {
 							role="tab"
 							onClick={() => handleTabChange(2)}>
 							<i className="fa-solid fa-users-gear"></i>
-							&nbsp; Candidatos
+							&nbsp; Candidates
 						</button>
 						<button
 							className={
@@ -159,7 +161,7 @@ const AdminPage = () => {
 							role="tab"
 							onClick={() => handleTabChange(3)}>
 							<i className="fa-solid fa-users-viewfinder"></i>
-							&nbsp; Votantes
+							&nbsp; Voters
 						</button>
 						<button
 							className={
@@ -170,7 +172,7 @@ const AdminPage = () => {
 							role="tab"
 							onClick={() => handleTabChange(4)}>
 							<i className="fa-solid fa-map-location-dot"></i>
-							&nbsp; Circunscripcion
+							&nbsp; Constituency
 						</button>
 						<button
 							className={
@@ -181,7 +183,7 @@ const AdminPage = () => {
 							role="tab"
 							onClick={() => handleTabChange(5)}>
 							<i className="fa-solid fa-square-poll-vertical"></i>
-							&nbsp; Resultados
+							&nbsp; Results
 						</button>
 					</div>
 					<div
@@ -196,7 +198,7 @@ const AdminPage = () => {
 									className="btn btn-sm btn-warning"
 									onClick={() => handleLogout()}>
 									<i className="fa-solid fa-right-from-bracket"></i>{' '}
-									Cerrar sesión
+									Logout
 								</button>
 							</div>
 						</nav>
@@ -205,15 +207,13 @@ const AdminPage = () => {
 						</div>
 					</div>
 				</div>
-			) : (
-				<ForbbidenPage title={prg} />
-			)}
-
-			{isAdmin && !login ? (
+			) : isAdmin && !login ? (
 				<div className="admin-login">
 					<AdminLogin onLogin={(v) => onLogin(v)} />
 				</div>
-			) : null}
+			) : (
+				<ForbbidenPage title={prg} />
+			)}
 		</div>
 	);
 };

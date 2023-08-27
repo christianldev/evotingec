@@ -7,7 +7,7 @@ import ProgressComponent from '../../../components/ProgressComponent';
 
 const Voters = () => {
 	let _prg = {
-		prgMsg: 'Loading..',
+		prgMsg: 'Cargando...',
 		warn: false,
 		success: false,
 	};

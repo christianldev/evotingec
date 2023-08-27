@@ -16,6 +16,7 @@ const HomePage = () => {
 		userId: '',
 		nationalId: '',
 		password: '',
+		birthDate: '',
 		email: '',
 		constituencyId: '',
 		otp: '',
@@ -41,13 +42,13 @@ const HomePage = () => {
 	};
 
 	const handleRegister = (voter) => {
-		console.log(voter);
 		rModal.hide();
 		setShowProgress(true);
 		if (
 			voter.userId !== '' &&
 			voter.nationalId !== '' &&
 			voter.password !== '' &&
+			voter.birthDate !== '' &&
 			voter.email !== '' &&
 			voter.constituencyId !== ''
 		) {
@@ -66,7 +67,6 @@ const HomePage = () => {
 						rModal.hide();
 					})
 					.catch((err) => {
-						console.log(err);
 						setProgress({
 							...progress,
 							warn: true,

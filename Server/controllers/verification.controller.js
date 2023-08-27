@@ -43,6 +43,7 @@ exports.sendMail = (req, res) => {
 
 exports.verifyOTP = (req, res) => {
     const { otp } = req.body
+    console.log(req.session)
     console.log(otp, req.session.verificationCode)
     if (otp === req.session.verificationCode) {
         res.status(200).send({ status: true, msg: 'Email verification successful!' });
