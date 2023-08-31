@@ -12,8 +12,6 @@ exports.create = async (req, res) => {
 
     const { userId, email, constituencyId, birthDate, nationalId, password } = req.body
 
-
-
     try {
 
         if (!userId || !email || !birthDate || !constituencyId || !nationalId || !password) {
