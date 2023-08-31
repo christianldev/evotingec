@@ -439,7 +439,7 @@ const Elections = (src, options) => {
 						<div className="modal-footer">
 							<button
 								type="button"
-								className="btn btn-secondary"
+								className="btn btn-secondary text-gray-500"
 								data-bs-dismiss="modal">
 								Cerrar
 							</button>

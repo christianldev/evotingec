@@ -1142,8 +1142,7 @@
     }
   },
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-08-19T22:08:24.375Z",
-  "networkType": "ethereum",
+  "updatedAt": "2023-08-28T00:20:39.757Z",
   "devdoc": {
     "details": "Library for managing addresses assigned to a Role.",
     "kind": "dev",

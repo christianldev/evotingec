@@ -24,7 +24,7 @@ const AdminDashboard = () => {
 			bg: 'text-bg-primary',
 		},
 		{
-			title: 'Votos registrados',
+			title: 'Votantes registrados',
 			count: 0,
 			icon: 'fa-users',
 			bg: 'text-bg-dark',

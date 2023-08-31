@@ -15,6 +15,7 @@ contract Voting {
         address key;
         string nationalId;
         string pwd;
+        uint age;
         bool isActive;
     }
 
@@ -143,11 +144,13 @@ contract Voting {
         return CandidatesMap[id].voteCount;
     }
 
-    function vote(string memory cId, string memory eId) public {
-        require(userRole.has(msg.sender), "User not registered");
+    function vote(string memory cId, string memory eId, uint diferenciaAnios) public {
+        require(verifyAge(diferenciaAnios), "No tiene la edad suficiente para votar");
+        require(userRole.has(msg.sender), "Usuario no registrado");
         Election storage election = ElectionsMap[eId];
-        require(!election.Voters[msg.sender], "User already voted");
+        require(!election.Voters[msg.sender], "Usted ya ha votado");
         CandidatesMap[cId].voteCount += 1;
+        // verify age of voter 
         election.votes += 1;
         election.voters.push(msg.sender);
         election.Voters[msg.sender] = true;
@@ -163,5 +166,17 @@ contract Voting {
 
         return _candidates;
     }
+
+    // function to verify age of voter and return true if age is greater than 18 years old and false if not 
+    function verifyAge(uint age) public pure returns (bool){
+        if (age >= 18) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+   
+    
 
 }

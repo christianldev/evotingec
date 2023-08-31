@@ -85,12 +85,12 @@ export const voterLogin = (data) => {
 	});
 };
 
-export const vote = (cId, eId) => {
+export const vote = (cId, eId, diferenciaAnios) => {
 	return new Promise((resolve, reject) => {
 		ws.getContract().then((c) => {
 			ws.getCurrentAccount().then((a) => {
 				c.methods
-					.vote(cId.toString(), eId)
+					.vote(cId.toString(), eId, diferenciaAnios)
 					.send({from: a})
 					.on('confirmation', (result) => {
 						console.log(result);

@@ -32,13 +32,13 @@ const Voters = () => {
 
 	const handleVoterVerify = (v) => {
 		setShowProgress(true);
-		console.log(v);
+
 		verifyVoter(v.key)
 			.then((r) => {
 				setProgress({
 					...progress,
 					success: true,
-					prgMsg: 'Voter Verified',
+					prgMsg: 'Votante verificado',
 				});
 				let i = setInterval(() => {
 					handleCloseProgress();
@@ -50,7 +50,7 @@ const Voters = () => {
 				setProgress({
 					...progress,
 					warn: true,
-					prgMsg: 'Voter Verification failed',
+					prgMsg: 'Votante no verificado',
 				});
 			});
 	};

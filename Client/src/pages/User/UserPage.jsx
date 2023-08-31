@@ -15,6 +15,7 @@ import user_image from '../../assets/images/user.png';
 import web3Service from '../../services/Web3Service';
 import ProgressComponent from '../../components/ProgressComponent';
 import ResultPage from '../Admin/Results/Result';
+import Web3 from 'web3';
 
 const UserPage = () => {
 	let user = {
@@ -118,13 +119,15 @@ const UserPage = () => {
 
 	const handleVote = (cId) => {
 		setShowProgress(true);
-		setProgress({...progress, msg: 'Voting'});
+		setProgress({...progress, msg: 'Votando'});
 		document.getElementById('ca-modal').click();
-		vote(cId, election)
+		const diferenciaAnios = ObtainAge(userDetails);
+		console.log(diferenciaAnios);
+		vote(cId, election, diferenciaAnios)
 			.then((r) => {
 				setProgress({
 					...progress,
-					msg: 'Voted',
+					msg: 'Voto exitoso',
 					success: true,
 				});
 				let i = setInterval(() => {
@@ -133,9 +136,10 @@ const UserPage = () => {
 				}, 5000);
 			})
 			.catch((err) => {
+				console.log(err);
 				setProgress({
 					...progress,
-					msg: 'Voting failed \n Already Voted',
+					msg: 'Voto fallido \n ya has votado',
 					warn: true,
 				});
 			});
@@ -143,6 +147,39 @@ const UserPage = () => {
 	const handleLogout = () => {
 		window.location.replace('/');
 	};
+
+	const ObtainAge = (userDetails) => {
+		const {birthDate} = userDetails;
+		const fechaNacimiento = new Date(birthDate);
+		const fechaActual = new Date();
+
+		// Convertir ambas fechas a UTC
+		const fechaNacimientoUTC = new Date(
+			fechaNacimiento.getUTCFullYear(),
+			fechaNacimiento.getUTCMonth(),
+			fechaNacimiento.getUTCDate(),
+			fechaNacimiento.getUTCHours(),
+			fechaNacimiento.getUTCMinutes(),
+			fechaNacimiento.getUTCSeconds()
+		);
+
+		const fechaActualUTC = new Date(
+			fechaActual.getUTCFullYear(),
+			fechaActual.getUTCMonth(),
+			fechaActual.getUTCDate(),
+			fechaActual.getUTCHours(),
+			fechaActual.getUTCMinutes(),
+			fechaActual.getUTCSeconds()
+		);
+
+		// Calcular la diferencia en años
+		const diferenciaAnios =
+			fechaActualUTC.getUTCFullYear() -
+			fechaNacimientoUTC.getUTCFullYear();
+
+		return diferenciaAnios;
+	};
+
 	return (
 		<>
 			{isVoter === true ? (

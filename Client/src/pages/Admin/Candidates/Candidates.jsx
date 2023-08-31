@@ -94,7 +94,7 @@ const Candidates = () => {
 						setConstituency('');
 						setProgress({
 							...progress,
-							msg: 'Added Candidate',
+							msg: 'Candidato agregado exitosamente',
 							success: true,
 							warn: false,
 						});
