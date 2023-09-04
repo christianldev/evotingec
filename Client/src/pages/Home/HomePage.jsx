@@ -4,7 +4,10 @@ import LoginComponent from '../../components/LoginComponent.jsx';
 import {Link, useNavigate} from 'react-router-dom';
 import RegisterComponent from '../../components/RegisterComponent';
 import Web3Service from '../../services/Web3Service';
-import {getAllConstituencies} from '../../services/AdminService';
+import {
+	getAllConstituencies,
+	verifyVoter,
+} from '../../services/AdminService';
 import {
 	registerVoter,
 	voterLogin,
@@ -93,9 +96,30 @@ const HomePage = () => {
 		setShowProgress(true);
 		if (login.nationalId !== '' && login.password !== '') {
 			setProgress({...progress, msg: 'Validando...'});
+
+			// verifyVoter(voter.userId)
+			// 	.then((r) => {
+			// 		setProgress({
+			// 			...progress,
+			// 			success: true,
+			// 			prgMsg: 'Votante verificado',
+			// 		});
+			// 		let i = setInterval(() => {
+			// 			handleCloseProgress();
+			// 			clearInterval(i);
+			// 		}, 3000);
+			// 		getAllUsers();
+			// 	})
+			// 	.catch((err) => {
+			// 		setProgress({
+			// 			...progress,
+			// 			warn: true,
+			// 			prgMsg: 'Votante no verificado',
+			// 		});
+			// 	});
+
 			voterLogin(login)
 				.then((r) => {
-					console.log(r);
 					setProgress({
 						...progress,
 						success: true,
@@ -129,6 +153,11 @@ const HomePage = () => {
 		}
 	};
 
+	function handleCloseProgress() {
+		setProgress(_prg);
+		setShowProgress(false);
+	}
+
 	useEffect(() => {
 		return () => {
 			new Web3Service().getCurrentAccount().then((a) => {
@@ -145,6 +174,7 @@ const HomePage = () => {
 		setProgress(Progress);
 		setShowProgress(false);
 	};
+
 	return (
 		<>
 			<div className="background-overlay"></div>

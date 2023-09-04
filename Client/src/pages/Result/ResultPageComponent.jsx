@@ -133,7 +133,7 @@ const ResultPageComponent = () => {
 								{!noWinner ? (
 									<>
 										<div className="col-12">
-											<div className="winner p-3 rounded-4 shadow-lg border border-2 border-success m-2">
+											<div className="winner p-3 rounded-4 shadow-lg border border-success m-2">
 												<img
 													className="trophy-icon m-2"
 													src={trophy}

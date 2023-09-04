@@ -85,50 +85,40 @@ export const voterLogin = (data) => {
 	});
 };
 
-// export const vote = (
-// 	cId,
-// 	eId,
-// 	diferenciaAnios,
-// 	unixEndDate
-// ) => {
-// 	return new Promise((resolve, reject) => {
-// 		ws.getContract().then((c) => {
-// 			ws.getCurrentAccount().then((a) => {
-// 				c.methods
-// 					.vote(
-// 						cId.toString(),
-// 						eId,
-// 						diferenciaAnios,
-// 						unixEndDate
-// 					)
-// 					.send({from: a})
-// 					.on('confirmation', (result) => {
-// 						resolve(result);
-// 					})
-// 					.catch((err) => {
-// 						console.log(err);
-// 						reject(err);
-// 					});
-// 			});
-// 		});
-// 	});
-// };
-
-export const vote = async (cId, eId) => {
-	try {
-		const contract = await ws.getContract();
-		const account = await ws.getCurrentAccount();
-		const result = await contract.methods
-			.vote(cId.toString(), eId)
-			.send({from: account});
-		console.log(result);
-		return result;
-	} catch (err) {
-		// get error message from ws service and return it
-		console.log(err);
-		throw err;
-	}
+export const vote = (cId, eId) => {
+	return new Promise((resolve, reject) => {
+		ws.getContract().then((c) => {
+			ws.getCurrentAccount().then((a) => {
+				c.methods
+					.vote(cId.toString(), eId)
+					.send({from: a})
+					.on('confirmation', (result) => {
+						resolve(result);
+					})
+					.catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+			});
+		});
+	});
 };
+
+// export const vote = async (cId, eId) => {
+// 	try {
+// 		const contract = await ws.getContract();
+// 		const account = await ws.getCurrentAccount();
+// 		const result = await contract.methods
+// 			.vote(cId.toString(), eId)
+// 			.send({from: account});
+// 		console.log(result);
+// 		return result;
+// 	} catch (err) {
+// 		// get error message from ws service and return it
+// 		console.log(err);
+// 		throw err;
+// 	}
+// };
 
 export const verifyAge = async (diferenciaAnios) => {
 	try {
@@ -144,13 +134,13 @@ export const verifyAge = async (diferenciaAnios) => {
 	}
 };
 
-export const hasVotingEnded = async (unixEndDate) => {
-	console.log(unixEndDate);
+export const hasVotingEnded = async (votingEndTime) => {
+	console.log(votingEndTime);
 	try {
 		const contract = await ws.getContract();
 		const account = await ws.getCurrentAccount();
 		const result = await contract.methods
-			.hasVotingEnded(unixEndDate)
+			.hasVotingEnded(votingEndTime)
 			.call({from: account});
 
 		return result;

@@ -108,7 +108,6 @@ const UserPage = () => {
 
 		console.log(
 			allCandidates.filter((c, i) => {
-				console.log(c, eId);
 				return c.electionId === eId;
 			})
 		);
@@ -127,12 +126,12 @@ const UserPage = () => {
 
 		// convert endDate to unix timestamp
 		const endDate = new Date(elections[0].endDate);
-		const unixEndDate = endDate.getTime() / 1000;
+		const votingEndTime = endDate.getTime() / 1000;
 
 		const result = await verifyAge(diferenciaAnios);
-		const EndVotation = await hasVotingEnded(unixEndDate);
+		// const EndVotation = await hasVotingEnded(votingEndTime);
 
-		console.log(EndVotation);
+		// console.log(EndVotation);
 		if (!result) {
 			setProgress({
 				...progress,
@@ -144,18 +143,19 @@ const UserPage = () => {
 				clearInterval(i);
 			}, 5000);
 			return;
-		} else if (EndVotation) {
-			setProgress({
-				...progress,
-				msg: 'La votación ha terminado',
-				warn: true,
-			});
-			let i = setInterval(() => {
-				closeProgress();
-				clearInterval(i);
-			}, 5000);
-			return;
 		}
+		// else if (EndVotation) {
+		// 	setProgress({
+		// 		...progress,
+		// 		msg: 'La votación ha terminado',
+		// 		warn: true,
+		// 	});
+		// 	let i = setInterval(() => {
+		// 		closeProgress();
+		// 		clearInterval(i);
+		// 	}, 5000);
+		// 	return;
+		// }
 
 		vote(cId, election)
 			.then((r) => {
@@ -171,6 +171,7 @@ const UserPage = () => {
 				}, 5000);
 			})
 			.catch((err) => {
+				console.log(err);
 				setProgress({
 					...progress,
 					msg: 'Error al votar',
