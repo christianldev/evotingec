@@ -8,6 +8,8 @@ import {
 	checkIsVoter,
 	getActiveElectionsUser,
 	getUser,
+	hasVotingEnded,
+	verifyAge,
 	vote,
 } from '../../services/VoterService';
 import './userpage.css';
@@ -99,11 +101,11 @@ const UserPage = () => {
 	const handleViewCandidates = (eId) => {
 		const candidateModal = new bootstrap.Modal('#c-modal');
 		setElection(eId);
-		console.log(allCandidates);
 		setCandidates(
 			allCandidates.filter((c, i) => c.electionId === eId)
 		);
 		candidateModal.show();
+
 		console.log(
 			allCandidates.filter((c, i) => {
 				console.log(c, eId);
@@ -117,14 +119,47 @@ const UserPage = () => {
 		setShowProgress(false);
 	}
 
-	const handleVote = (cId) => {
+	const handleVote = async (cId) => {
 		setShowProgress(true);
 		setProgress({...progress, msg: 'Votando'});
 		document.getElementById('ca-modal').click();
 		const diferenciaAnios = ObtainAge(userDetails);
-		console.log(diferenciaAnios);
-		vote(cId, election, diferenciaAnios)
+
+		// convert endDate to unix timestamp
+		const endDate = new Date(elections[0].endDate);
+		const unixEndDate = endDate.getTime() / 1000;
+
+		const result = await verifyAge(diferenciaAnios);
+		const EndVotation = await hasVotingEnded(unixEndDate);
+
+		console.log(EndVotation);
+		if (!result) {
+			setProgress({
+				...progress,
+				msg: 'No es mayor de edad',
+				warn: true,
+			});
+			let i = setInterval(() => {
+				closeProgress();
+				clearInterval(i);
+			}, 5000);
+			return;
+		} else if (EndVotation) {
+			setProgress({
+				...progress,
+				msg: 'La votación ha terminado',
+				warn: true,
+			});
+			let i = setInterval(() => {
+				closeProgress();
+				clearInterval(i);
+			}, 5000);
+			return;
+		}
+
+		vote(cId, election)
 			.then((r) => {
+				console.log(r);
 				setProgress({
 					...progress,
 					msg: 'Voto exitoso',
@@ -136,10 +171,9 @@ const UserPage = () => {
 				}, 5000);
 			})
 			.catch((err) => {
-				console.log(err);
 				setProgress({
 					...progress,
-					msg: 'Voto fallido \n ya has votado',
+					msg: 'Error al votar',
 					warn: true,
 				});
 			});
@@ -240,7 +274,7 @@ const UserPage = () => {
 									role="tab"
 									aria-controls="pills-home"
 									aria-selected="true">
-									Elections
+									Elecciones
 								</button>
 							</li>
 							<li className="nav-item" role="presentation">
@@ -253,7 +287,7 @@ const UserPage = () => {
 									role="tab"
 									aria-controls="pills-profile"
 									aria-selected="false">
-									Published Results
+									Resultados
 								</button>
 							</li>
 						</ul>
@@ -299,7 +333,7 @@ const UserPage = () => {
 																		)
 																	}>
 																	<i className="fa-solid fa-check-to-slot"></i>{' '}
-																	VOTE
+																	VOTAR
 																</button>
 															</td>
 														</tr>
@@ -343,7 +377,9 @@ const UserPage = () => {
 										id="ca-modal"
 										className="btn-close"
 										data-bs-dismiss="modal"
-										aria-label="Close"></button>
+										aria-label="Close">
+										X
+									</button>
 								</div>
 								<div className="modal-body">
 									{candidates.length >= 1 ? (

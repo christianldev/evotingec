@@ -20,6 +20,7 @@ const RegisterComponent = ({
 
 	const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 	const handleConstituencyChange = (c) => {
+		console.log(constituencies);
 		setVoter({...voter, constituencyId: parseInt(c)});
 		setConstituency(
 			constituencies.filter(
