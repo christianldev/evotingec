@@ -35,7 +35,7 @@ function App() {
 	}, []);
 
 	return (
-		<div className="App">
+		<div>
 			{isConnected ? (
 				<RouterProvider router={RouterList} />
 			) : (

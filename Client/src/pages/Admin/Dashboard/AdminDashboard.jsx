@@ -2,37 +2,44 @@ import React, {useEffect, useState} from 'react';
 import './dashboard-page.css';
 import CardTile from '../../../components/CardTile';
 import {getCounts} from '../../../services/AdminService';
+import {
+	FaMapLocationDot,
+	FaUserCheck,
+	FaArrowsDownToPeople,
+	FaFileCircleCheck,
+	FaRegCalendarCheck,
+} from 'react-icons/fa6';
 
 const AdminDashboard = () => {
 	let cards = [
 		{
 			title: 'Elecciones activas',
 			count: 0,
-			icon: 'fa-person-booth',
+			icon: <FaFileCircleCheck />,
 			bg: 'text-bg-success',
 		},
 		{
 			title: 'Votantes activos',
 			count: 0,
-			icon: 'fa-users-viewfinder',
+			icon: <FaUserCheck />,
 			bg: 'text-bg-danger',
 		},
 		{
 			title: 'Total elecciones',
 			count: 0,
-			icon: 'fa-square-poll-vertical',
+			icon: <FaRegCalendarCheck />,
 			bg: 'text-bg-primary',
 		},
 		{
 			title: 'Votantes registrados',
 			count: 0,
-			icon: 'fa-users',
+			icon: <FaArrowsDownToPeople />,
 			bg: 'text-bg-dark',
 		},
 		{
 			title: 'Recintos electorales',
 			count: 0,
-			icon: 'fa-map',
+			icon: <FaMapLocationDot />,
 			bg: 'text-bg-warning',
 		},
 	];
@@ -54,14 +61,12 @@ const AdminDashboard = () => {
 	}, []);
 
 	return (
-		<div className="container-fluid dashboard-page">
-			<div className="row g-3 justify-content-center">
-				{cardTiles.map((c, i) => (
-					<div className="col" key={i}>
-						<CardTile prop={c} />
-					</div>
-				))}
-			</div>
+		<div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">
+			{cardTiles.map((c, i) => (
+				<div className="col" key={i}>
+					<CardTile prop={c} />
+				</div>
+			))}
 		</div>
 	);
 };

@@ -1,19 +1,25 @@
 import React from 'react';
 
 const MyComponent = ({prop}) => {
-    return (
-        <div>
-            <div className={`card ${prop.bg} rounded-4 shadow-lg`}>
-                <div className="title fs-4">
-                    <i className={`${prop.icon} fa-solid fs-2 px-2 pe-3`}></i> {prop.title}
-                </div>
-                <hr/>
-                <div className="count w-100 fs-3 d-flex justify-content-end pe-3">
-                    {prop.count}
-                </div>
-            </div>
-        </div>
-    );
+	console.log(prop);
+	return (
+		<div>
+			<div className="!z-5 relative flex  bg-white bg-clip-border shadow-3xl shadow-shadow-500 dark:!bg-navy-800 dark:text-white dark:shadow-none !flex-row flex-grow items-center rounded-[20px]">
+				<div className="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+					<span className="flex rounded-full bg-lightPrimary p-2 dark:bg-navy-700 items-center text-brand-500 dark:text-white">
+						{prop.icon}
+					</span>
+					<p className="font-dm text-sm font-medium text-gray-600 p-2">
+						{prop.title}
+					</p>
+				</div>
+				<hr />
+				<div className="text-xl font-bold text-navy-700 dark:text-white">
+					{prop.count}
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default MyComponent;

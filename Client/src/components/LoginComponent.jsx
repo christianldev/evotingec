@@ -66,7 +66,7 @@ const LoginComponent = ({register, onLogin}) => {
 				<a
 					className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
 					href=" ">
-					Contraeña olvidada?
+					Contraseña olvidada?
 				</a>
 			</div>
 			<div className="d-flex justify-content-end">
