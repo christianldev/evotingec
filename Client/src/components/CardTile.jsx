@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MyComponent = ({prop}) => {
-	console.log(prop);
+	console.log(prop.icon);
 	return (
 		<div>
 			<div className="!z-5 relative flex  bg-white bg-clip-border shadow-3xl shadow-shadow-500 dark:!bg-navy-800 dark:text-white dark:shadow-none !flex-row flex-grow items-center rounded-[20px]">
@@ -9,14 +9,16 @@ const MyComponent = ({prop}) => {
 					<span className="flex rounded-full bg-lightPrimary p-2 dark:bg-navy-700 items-center text-brand-500 dark:text-white">
 						{prop.icon}
 					</span>
-					<p className="font-dm text-sm font-medium text-gray-600 p-2">
+				</div>
+				<div className="h-50 ml-4 flex w-auto flex-col justify-center">
+					<p className="font-dm text-md font-medium text-gray-600">
 						{prop.title}
 					</p>
+					<div className="text-xl font-bold text-navy-700 dark:text-white">
+						{prop.count}
+					</div>
 				</div>
 				<hr />
-				<div className="text-xl font-bold text-navy-700 dark:text-white">
-					{prop.count}
-				</div>
 			</div>
 		</div>
 	);

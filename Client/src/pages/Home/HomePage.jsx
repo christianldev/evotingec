@@ -13,7 +13,7 @@ import {
 	voterLogin,
 } from '../../services/VoterService';
 import ProgressComponent from '../../components/ProgressComponent';
-import bgAuht from '../../assets/images/bgauth.png';
+import bgAuht from '../../assets/images/bgauth.jpg';
 
 const HomePage = () => {
 	let Voter = {

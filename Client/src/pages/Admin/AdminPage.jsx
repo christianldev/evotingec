@@ -5,6 +5,14 @@ import vote from '../../assets/images/vote.png';
 import {checkIsAdmin} from '../../services/AdminService';
 import AdminLogin from '../../components/AdminLogin';
 import {ForbbidenPage} from '../Error/ForbbidenPage';
+import {FaVoteYea} from 'react-icons/fa';
+import {
+	FaUsersGear,
+	FaUsersLine,
+	FaMapLocation,
+} from 'react-icons/fa6';
+import {HiPresentationChartLine} from 'react-icons/hi2';
+import {AiFillDashboard} from 'react-icons/ai';
 
 const AdminPage = () => {
 	let _prg = {
@@ -131,120 +139,200 @@ const AdminPage = () => {
 						</div>
 						<div class="mt-[58px] mb-7 h-px bg-gray-300 dark:bg-white/30"></div>
 
-						<div
-							className="nav d-flex flex-column nav-pills p-4 align-items-center tabs shadow"
-							id="v-pills-tab"
-							role="tablist"
-							aria-orientation="vertical">
-							<button
-								className={
-									page === 0
-										? ' my-[3px] flex cursor-pointer rounded-xl items-center  p-2 text-white bg-blueSecondary'
-										: ' my-[3px] flex cursor-pointer rounded-xl items-center p-2'
-								}
-								id="v-pills-home-tab"
-								type="button"
-								role="tab"
-								onClick={() => handleTabChange(0)}>
-								<i
+						<ul className="mb-auto pt-1">
+							<div className="relative mb-3 flex hover:cursor-pointer">
+								<li
 									className={
 										page === 0
-											? 'fa-solid fa-gauge-high font-bold text-white '
-											: 'fa-solid fa-gauge-high font-bold  text-blueSecondary'
-									}></i>
-								&nbsp; Dashboard
-							</button>
-							<button
-								className={
-									page === 1
-										? ' my-[3px] flex cursor-pointer rounded-xl items-center  p-2 text-white bg-blueSecondary'
-										: ' my-[3px] flex cursor-pointer rounded-xl items-center p-2'
-								}
-								id="v-pills-profile-tab"
-								type="button"
-								role="tab"
-								onClick={() => handleTabChange(1)}>
-								<i
+											? ' my-[3px] flex cursor-pointer items-center px-8'
+											: ' my-[3px] flex cursor-pointer items-center px-8 text-gray-700'
+									}
+									id="v-pills-home-tab"
+									type="button"
+									role="tab"
+									onClick={() => handleTabChange(0)}>
+									<AiFillDashboard
+										className={
+											page === 0
+												? ' font-bold text-blueSecondary w-6 h-6'
+												: 'font-bold  text-gray-600 w-6 h-6'
+										}
+									/>
+
+									<p
+										className={
+											page === 0
+												? 'leading-1 flex ms-4 font-bold text-gray-800'
+												: 'leading-1 flex ms-4 font-bold text-gray-600'
+										}>
+										Inicio
+									</p>
+								</li>
+								{page === 0 && (
+									<div class="absolute top-px h-9 w-1 rounded-lg bg-brand-500 end-0 dark:bg-brand-400"></div>
+								)}
+							</div>
+
+							<div className="relative mb-3 flex hover:cursor-pointer">
+								<li
 									className={
 										page === 1
-											? 'fa-solid fa-gauge-high font-bold text-white '
-											: 'fa-solid fa-gauge-high font-bold  text-blueSecondary'
-									}></i>
-								&nbsp;Elections
-							</button>
-							<button
-								className={
-									page === 2
-										? ' my-[3px] flex cursor-pointer rounded-xl items-center  p-2 text-white bg-blueSecondary'
-										: ' my-[3px] flex cursor-pointer rounded-xl items-center p-2'
-								}
-								id="v-pills-messages-tab"
-								type="button"
-								role="tab"
-								onClick={() => handleTabChange(2)}>
-								<i
+											? ' my-[3px] flex cursor-pointer items-center px-8'
+											: ' my-[3px] flex cursor-pointer items-center px-8 text-gray-700'
+									}
+									id="v-pills-profile-tab"
+									type="button"
+									role="tab"
+									onClick={() => handleTabChange(1)}>
+									<FaVoteYea
+										className={
+											page === 1
+												? ' font-bold text-blueSecondary w-6 h-6'
+												: 'font-bold  text-gray-600 w-6 h-6'
+										}
+									/>
+									<p
+										className={
+											page === 1
+												? 'leading-1 flex ms-4 font-bold text-gray-800'
+												: 'leading-1 flex ms-4 font-bold text-gray-600'
+										}>
+										Elecciones
+									</p>
+								</li>
+								{page === 1 && (
+									<div class="absolute top-px h-9 w-1 rounded-lg bg-brand-500 end-0 dark:bg-brand-400"></div>
+								)}
+							</div>
+
+							<div className="relative mb-3 flex hover:cursor-pointer">
+								<li
 									className={
 										page === 2
-											? 'fa-solid fa-gauge-high font-bold text-white '
-											: 'fa-solid fa-gauge-high font-bold  text-blueSecondary'
-									}></i>
-								&nbsp; Candidates
-							</button>
-							<button
-								className={
-									page === 3
-										? ' my-[3px] flex cursor-pointer rounded-xl items-center  p-2 text-white bg-blueSecondary'
-										: ' my-[3px] flex cursor-pointer rounded-xl items-center p-2'
-								}
-								id="v-pills-voters-tab"
-								type="button"
-								role="tab"
-								onClick={() => handleTabChange(3)}>
-								<i
+											? ' my-[3px] flex cursor-pointer items-center px-8'
+											: ' my-[3px] flex cursor-pointer items-center px-8 text-gray-700'
+									}
+									id="v-pills-messages-tab"
+									type="button"
+									role="tab"
+									onClick={() => handleTabChange(2)}>
+									<FaUsersGear
+										className={
+											page === 2
+												? ' font-bold text-blueSecondary w-6 h-6'
+												: 'font-bold  text-gray-600 w-6 h-6'
+										}
+									/>
+									<p
+										className={
+											page === 2
+												? 'leading-1 flex ms-4 font-bold text-gray-800'
+												: 'leading-1 flex ms-4 font-bold text-gray-600'
+										}>
+										Candidatos
+									</p>
+								</li>
+								{page === 2 && (
+									<div class="absolute top-px h-9 w-1 rounded-lg bg-brand-500 end-0 dark:bg-brand-400"></div>
+								)}
+							</div>
+
+							<div className="relative mb-3 flex hover:cursor-pointer">
+								<li
 									className={
 										page === 3
-											? 'fa-solid fa-gauge-high font-bold text-white '
-											: 'fa-solid fa-gauge-high font-bold  text-blueSecondary'
-									}></i>
-								&nbsp; Voters
-							</button>
-							<button
-								className={
-									page === 4
-										? ' my-[3px] flex cursor-pointer rounded-xl items-center  p-2 text-white bg-blueSecondary'
-										: ' my-[3px] flex cursor-pointer rounded-xl items-center p-2'
-								}
-								id="v-pills-settings-tab"
-								type="button"
-								role="tab"
-								onClick={() => handleTabChange(4)}>
-								<i
+											? ' my-[3px] flex cursor-pointer items-center px-8'
+											: ' my-[3px] flex cursor-pointer items-center px-8 text-gray-700'
+									}
+									id="v-pills-voters-tab"
+									type="button"
+									role="tab"
+									onClick={() => handleTabChange(3)}>
+									<FaUsersLine
+										className={
+											page === 3
+												? ' font-bold text-blueSecondary w-6 h-6'
+												: 'font-bold  text-gray-600 w-6 h-6'
+										}
+									/>
+									<p
+										className={
+											page === 3
+												? 'leading-1 flex ms-4 font-bold text-gray-800'
+												: 'leading-1 flex ms-4 font-bold text-gray-600'
+										}>
+										Votantes
+									</p>
+								</li>
+								{page === 3 && (
+									<div class="absolute top-px h-9 w-1 rounded-lg bg-brand-500 end-0 dark:bg-brand-400"></div>
+								)}
+							</div>
+
+							<div className="relative mb-3 flex hover:cursor-pointer">
+								<li
 									className={
 										page === 4
-											? 'fa-solid fa-gauge-high font-bold text-white '
-											: 'fa-solid fa-gauge-high font-bold  text-blueSecondary'
-									}></i>
-								&nbsp; Constituency
-							</button>
-							<button
-								className={
-									page === 5
-										? ' my-[3px] flex cursor-pointer rounded-xl items-center  p-2 text-white bg-blueSecondary'
-										: ' my-[3px] flex cursor-pointer rounded-xl items-center p-2'
-								}
-								id="v-pills-settings-tab"
-								type="button"
-								role="tab"
-								onClick={() => handleTabChange(5)}>
-								<i
+											? ' my-[3px] flex cursor-pointer items-center px-8'
+											: ' my-[3px] flex cursor-pointer items-center px-8 text-gray-700'
+									}
+									id="v-pills-settings-tab"
+									type="button"
+									role="tab"
+									onClick={() => handleTabChange(4)}>
+									<FaMapLocation
+										className={
+											page === 4
+												? ' font-bold text-blueSecondary w-6 h-6'
+												: 'font-bold  text-gray-600 w-6 h-6'
+										}
+									/>
+									<p
+										className={
+											page === 4
+												? 'leading-1 flex ms-4 font-bold text-gray-800'
+												: 'leading-1 flex ms-4 font-bold text-gray-600'
+										}>
+										Padron electoral
+									</p>
+								</li>
+								{page === 4 && (
+									<div class="absolute top-px h-9 w-1 rounded-lg bg-brand-500 end-0 dark:bg-brand-400"></div>
+								)}
+							</div>
+
+							<div className="relative mb-3 flex hover:cursor-pointer">
+								<li
 									className={
 										page === 5
-											? 'fa-solid fa-gauge-high font-bold text-white '
-											: 'fa-solid fa-gauge-high font-bold  text-blueSecondary'
-									}></i>
-								&nbsp; Results
-							</button>
-						</div>
+											? ' my-[3px] flex cursor-pointer items-center px-8'
+											: ' my-[3px] flex cursor-pointer items-center px-8 text-gray-700'
+									}
+									id="v-pills-settings-tab"
+									type="button"
+									role="tab"
+									onClick={() => handleTabChange(5)}>
+									<HiPresentationChartLine
+										className={
+											page === 5
+												? ' font-bold text-blueSecondary w-6 h-6'
+												: 'font-bold  text-gray-600 w-6 h-6'
+										}
+									/>
+									<p
+										className={
+											page === 5
+												? 'leading-1 flex ms-4 font-bold text-gray-800'
+												: 'leading-1 flex ms-4 font-bold text-gray-600'
+										}>
+										Resultados
+									</p>
+								</li>
+								{page === 5 && (
+									<div class="absolute top-px h-9 w-1 rounded-lg bg-brand-500 end-0 dark:bg-brand-400"></div>
+								)}
+							</div>
+						</ul>
 					</div>
 					<div
 						className="h-full w-full bg-lightPrimary dark:!bg-navy-900"

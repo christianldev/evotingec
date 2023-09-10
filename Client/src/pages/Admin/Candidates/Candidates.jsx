@@ -146,7 +146,7 @@ const Candidates = () => {
 	}, []);
 
 	return (
-		<div className="container-fluid candidate-page bg-body-secondary">
+		<div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
 			{showProgress ? (
 				<ProgressComponent
 					onClose={() => closeProgress()}
