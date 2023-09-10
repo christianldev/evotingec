@@ -13,6 +13,7 @@ import {
 	voterLogin,
 } from '../../services/VoterService';
 import ProgressComponent from '../../components/ProgressComponent';
+import bgAuht from '../../assets/images/bgauth.png';
 
 const HomePage = () => {
 	let Voter = {
@@ -177,7 +178,6 @@ const HomePage = () => {
 
 	return (
 		<>
-			<div className="background-overlay"></div>
 			<div className="home-page">
 				<nav className="navbar bg-transparent">
 					<div className="container-fluid">
@@ -189,7 +189,7 @@ const HomePage = () => {
 							<ul className="navbar-nav">
 								<li className="nav-item">
 									<Link
-										className="nav-link nav-btn"
+										className="nav-link nav-btn text-gray-200 hover:text-gray-200"
 										aria-current="page"
 										to="admin">
 										<i className="fa-solid fa-user-shield"></i>
@@ -200,20 +200,37 @@ const HomePage = () => {
 						</div>
 					</div>
 				</nav>
-				<div className="login-container">
-					<div className="login-cmp shadow-lg border">
-						<LoginComponent
-							register={() => onRegisterClick()}
-							onLogin={(login) => handleLogin(login)}
-						/>
-						<RegisterComponent
-							voter={voter}
-							setVoter={setVoter}
-							constituencies={constituencies}
-							onRegister={(voter) => handleRegister(voter)}
-							modal={rModal}
-						/>
-					</div>
+				<div className="relative float-right h-full min-h-screen w-full !bg-white dark:!bg-navy-900">
+					<main className="mx-auto min-h-screen">
+						<div className="relative flex">
+							<div className="mx-auto flex min-h-full w-full flex-col justify-start pt-12 md:max-w-[75%] lg:h-screen lg:max-w-[1013px] lg:px-8 lg:pt-0 xl:h-[100vh] xl:max-w-[1383px] xl:px-0 xl:pl-[70px]">
+								<div className="mb-auto flex flex-col pl-5 pr-5 md:pr-0 md:pl-12 lg:max-w-[48%] lg:pl-0 xl:max-w-full">
+									<div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
+										<LoginComponent
+											register={() => onRegisterClick()}
+											onLogin={(login) =>
+												handleLogin(login)
+											}
+										/>
+										<RegisterComponent
+											voter={voter}
+											setVoter={setVoter}
+											constituencies={constituencies}
+											onRegister={(voter) =>
+												handleRegister(voter)
+											}
+											modal={rModal}
+										/>
+									</div>
+									<div className="absolute right-0 hidden h-full min-h-screen md:block lg:w-[49vw] 2xl:w-[44vw]">
+										<div className="absolute flex h-full w-full items-end justify-center bg-cover bg-center lg:rounded-bl-[120px] xl:rounded-bl-[200px]">
+											<img src={bgAuht} alt="bg" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</main>
 				</div>
 				{showProgress ? (
 					<ProgressComponent
