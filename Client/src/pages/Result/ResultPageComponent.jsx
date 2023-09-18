@@ -39,10 +39,10 @@ const ResultPageComponent = () => {
 				.then((e) => {
 					setElection(e.data);
 					let _e = e.data;
-					// console.log(e);
+
 					getElectionResults(id)
 						.then((r) => {
-							// console.log(r);
+							console.log(r);
 							if (r.length >= 1) {
 								if (r.length > 1) {
 									r.sort((a, b) => {
@@ -61,7 +61,7 @@ const ResultPageComponent = () => {
 									if (i === r.length - 1) setElection(_e);
 								});
 							} else {
-								setPrg('No Candidates in the Election...');
+								setPrg('No hay candidatos...');
 							}
 						})
 						.catch((err) => {
@@ -70,7 +70,7 @@ const ResultPageComponent = () => {
 						});
 				})
 				.catch((err) => {
-					setPrg('Invalid Election...');
+					setPrg('Eleccion no encontrada');
 				});
 		};
 	}, []);
@@ -96,7 +96,7 @@ const ResultPageComponent = () => {
 												data-bs-target="#collapseOne"
 												aria-controls="collapseOne">
 												<div className="fs-3 fw-bold">
-													ELECTION
+													DETALLE DE ELECCION
 												</div>
 											</button>
 										</h2>

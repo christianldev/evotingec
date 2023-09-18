@@ -77,9 +77,9 @@ const Voters = () => {
 						<thead>
 							<tr>
 								<th scope="col">#</th>
-								<th scope="col">UserId</th>
+								<th scope="col">Usuario</th>
 								<th scope="col">Cedula</th>
-								<th scope="col">Actions</th>
+								<th scope="col">Accion</th>
 							</tr>
 						</thead>
 						<tbody>

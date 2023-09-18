@@ -55,7 +55,6 @@ export const voterLogin = (data) => {
 					.login(data.nationalId, data.password)
 					.call({from: a})
 					.then((r) => {
-						console.log(r);
 						if (r.nationalId !== '') {
 							resolve(r);
 						}
@@ -135,7 +134,6 @@ export const verifyAge = async (diferenciaAnios) => {
 };
 
 export const hasVotingEnded = async (votingEndTime) => {
-	console.log(votingEndTime);
 	try {
 		const contract = await ws.getContract();
 		const account = await ws.getCurrentAccount();

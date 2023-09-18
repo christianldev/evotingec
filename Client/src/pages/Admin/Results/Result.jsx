@@ -26,9 +26,9 @@ const ResultPage = () => {
 							<thead>
 								<tr>
 									<th scope="col">#</th>
-									<th scope="col">Election Id</th>
-									<th scope="col">Constituency</th>
-									<th scope="col">View result</th>
+									<th scope="col">Eleccion</th>
+									<th scope="col">Distrito</th>
+									<th scope="col">Ver resultado</th>
 								</tr>
 							</thead>
 							<tbody className="table-group-divider">
@@ -47,7 +47,7 @@ const ResultPage = () => {
 												to={'/result/' + e.electionId}
 												target="_blank">
 												<i className="fa-solid fa-chart-simple"></i>
-												&nbsp; View
+												&nbsp; Ver
 											</Link>
 										</td>
 									</tr>

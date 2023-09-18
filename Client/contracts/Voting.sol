@@ -183,12 +183,12 @@ contract Voting {
     }
 
 
-    // function hasVotingEnded(uint votingEndTime) public view returns (bool) {
-    //    if (block.timestamp >= votingEndTime) {
-    //        return true;
-    //    } else {
-    //        return false;
-    //    }
-    // }
+    function hasVotingEnded(uint votingEndTime) public view returns (bool) {
+       if (block.timestamp >= votingEndTime) {
+           return true;
+       } else {
+           return false;
+       }
+    }
 
 }

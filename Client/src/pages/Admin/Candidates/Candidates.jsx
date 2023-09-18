@@ -146,7 +146,7 @@ const Candidates = () => {
 	}, []);
 
 	return (
-		<div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
+		<div className="pt-5 mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
 			{showProgress ? (
 				<ProgressComponent
 					onClose={() => closeProgress()}
@@ -157,34 +157,59 @@ const Candidates = () => {
 			) : null}
 
 			{elections.length >= 1 ? (
-				<div className="card bg-opacity-10 shadow-lg border border-dark-subtle rounded-4">
+				<div className="card bg-opacity-10 shadow-lg rounded-4 container">
 					<div className="row">
-						<div className="col-12">
-							<div className="usr-image d-flex justify-content-center flex-column align-items-center mt-3 mb-3 object-fit">
-								<img
-									className="img-thumbnail border-primary-subtle"
-									src={previewImage || user_icon}
-									alt="user"
-									width="120px"
-									height="120px"
+						<div className="usr-image col-6 d-flex justify-content-center flex-column align-items-center mt-3 mb-3 object-fit">
+							<img
+								className="img-thumbnail border-primary-subtle"
+								src={previewImage || user_icon}
+								alt="user"
+								width="120px"
+								height="120px"
+							/>
+							<div className="img-c mb-3 mt-3 col-md-6 d-flex flex-column">
+								<label
+									className="form-label text-center"
+									htmlFor="formFile">
+									Selecciona imagen de candidato
+								</label>
+								<input
+									className="img-chooser form-control"
+									type="file"
+									id="formFile"
+									onChange={(event) =>
+										handleCandidateImage(event)
+									}
 								/>
-								<div className="img-c mb-3 mt-3 col-md-6 d-flex flex-column">
-									<label
-										className="form-label text-center"
-										htmlFor="formFile">
-										Selecciona una imagen
-									</label>
-									<input
-										className="img-chooser form-control"
-										type="file"
-										id="formFile"
-										onChange={(event) =>
-											handleCandidateImage(event)
-										}
-									/>
-								</div>
 							</div>
 						</div>
+
+						<div className="usr-image col-6 d-flex justify-content-center flex-column align-items-center mt-3 mb-3 object-fit ">
+							<img
+								className="img-thumbnail border-primary-subtle"
+								src={previewSymbol || picture}
+								alt="user "
+								width="120px "
+								height="120px "
+							/>
+							<div className="img-c mb-3 mt-3 col-md-6 d-flex flex-column ">
+								<label
+									className="form-label text-center "
+									form="formFile1 ">
+									Selecciona imagen de partido politico
+								</label>
+								<input
+									className="img-chooser form-control"
+									type="file"
+									id="formFile1"
+									onChange={(event) =>
+										handleCandidateSymbol(event)
+									}
+								/>
+							</div>
+							<p className="text-danger"></p>
+						</div>
+
 						<div className="col-12 col-sm-6">
 							<div className="form-floating mb-3 rounded-2 border border-primary-subtle">
 								<input
@@ -278,34 +303,6 @@ const Candidates = () => {
 								</datalist>
 							</div>
 							<div className="const d-flex justify-content-center text-secondary"></div>
-						</div>
-
-						<div className="col-12 ">
-							<div className="usr-image d-flex justify-content-center flex-column align-items-center mt-3 mb-3 object-fit ">
-								<img
-									className="img-thumbnail border-primary-subtle"
-									src={previewSymbol || picture}
-									alt="user "
-									width="120px "
-									height="120px "
-								/>
-								<div className="img-c mb-3 mt-3 col-md-6 d-flex flex-column ">
-									<label
-										className="form-label text-center "
-										form="formFile1 ">
-										Selecciona imagen de partido politico
-									</label>
-									<input
-										className="img-chooser form-control"
-										type="file"
-										id="formFile1"
-										onChange={(event) =>
-											handleCandidateSymbol(event)
-										}
-									/>
-								</div>
-								<p className="text-danger"></p>
-							</div>
 						</div>
 					</div>
 					<button

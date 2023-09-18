@@ -105,12 +105,6 @@ const UserPage = () => {
 			allCandidates.filter((c, i) => c.electionId === eId)
 		);
 		candidateModal.show();
-
-		console.log(
-			allCandidates.filter((c, i) => {
-				return c.electionId === eId;
-			})
-		);
 	};
 
 	function closeProgress() {
@@ -129,9 +123,8 @@ const UserPage = () => {
 		const votingEndTime = endDate.getTime() / 1000;
 
 		const result = await verifyAge(diferenciaAnios);
-		// const EndVotation = await hasVotingEnded(votingEndTime);
+		const EndVotation = await hasVotingEnded(votingEndTime);
 
-		// console.log(EndVotation);
 		if (!result) {
 			setProgress({
 				...progress,
@@ -143,19 +136,18 @@ const UserPage = () => {
 				clearInterval(i);
 			}, 5000);
 			return;
+		} else if (EndVotation) {
+			setProgress({
+				...progress,
+				msg: 'La votación ha terminado',
+				warn: true,
+			});
+			let i = setInterval(() => {
+				closeProgress();
+				clearInterval(i);
+			}, 5000);
+			return;
 		}
-		// else if (EndVotation) {
-		// 	setProgress({
-		// 		...progress,
-		// 		msg: 'La votación ha terminado',
-		// 		warn: true,
-		// 	});
-		// 	let i = setInterval(() => {
-		// 		closeProgress();
-		// 		clearInterval(i);
-		// 	}, 5000);
-		// 	return;
-		// }
 
 		vote(cId, election)
 			.then((r) => {
