@@ -59,7 +59,7 @@ const UserPage = () => {
 				if (e.length === 0)
 					setProgress({
 						...progress,
-						msg: 'No active elections for your constituency.!!!',
+						msg: 'No hay elecciones activas',
 					});
 			});
 		});

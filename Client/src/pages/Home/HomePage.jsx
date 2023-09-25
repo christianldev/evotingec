@@ -94,6 +94,7 @@ const HomePage = () => {
 	};
 
 	const handleLogin = (login) => {
+		console.log(login);
 		setShowProgress(true);
 		if (login.nationalId !== '' && login.password !== '') {
 			setProgress({...progress, msg: 'Validando...'});
@@ -207,7 +208,7 @@ const HomePage = () => {
 								<div className="mb-auto flex flex-col pl-5 pr-5 md:pr-0 md:pl-12 lg:max-w-[48%] lg:pl-0 xl:max-w-full">
 									<div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
 										<LoginComponent
-											register={() => onRegisterClick()}
+											onRegister={() => onRegisterClick()}
 											onLogin={(login) =>
 												handleLogin(login)
 											}

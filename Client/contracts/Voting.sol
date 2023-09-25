@@ -106,7 +106,7 @@ contract Voting {
 
     function login(string memory nationalId, string memory pwd) public view returns (User memory){
         require(!adminRole.has(msg.sender), "Connected as Admin");
-        require(userRole.has(msg.sender), "Not a registered voter");
+        require(userRole.has(msg.sender), "No se encuentra registrado");
 
         User memory user = UsersMap[msg.sender];
 

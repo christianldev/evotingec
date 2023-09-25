@@ -4,6 +4,8 @@ import {
 	verifyOTP,
 } from '../services/VoterService';
 
+import {FaCircleXmark} from 'react-icons/fa6';
+
 const RegisterComponent = ({
 	voter,
 	setVoter,
@@ -72,7 +74,9 @@ const RegisterComponent = ({
 						<button
 							type="button"
 							className="btn-close"
-							onClick={() => modal.hide()}></button>
+							onClick={() => modal.hide()}>
+							<FaCircleXmark />
+						</button>
 					</div>
 					<div className="row w-100 g-1">
 						<div className="col-12">
