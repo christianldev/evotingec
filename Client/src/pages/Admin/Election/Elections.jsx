@@ -194,7 +194,7 @@ const Elections = (src, options) => {
 			setShowProgress(true);
 			setProgress({
 				...progress,
-				msg: 'No Constituencies',
+				msg: 'No hay un padron registrado',
 				warn: true,
 			});
 		}

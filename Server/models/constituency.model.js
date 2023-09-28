@@ -5,6 +5,12 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: DataTypes.STRING,
         },
+        recinto: {
+            type: DataTypes.STRING,
+        },
+        direccion: {
+            type: DataTypes.STRING,
+        },
         province: {
             type: DataTypes.STRING,
         },
@@ -14,14 +20,8 @@ module.exports = (sequelize, Sequelize) => {
         parroquia: {
             type: DataTypes.STRING,
         },
-        zona: {
-            type: DataTypes.STRING,
-        },
         junta: {
             type: DataTypes.INTEGER,
-        },
-        numeroCertificado: {
-            type: DataTypes.INTEGER, unique: true
         },
         generoid: {
             type: DataTypes.INTEGER,

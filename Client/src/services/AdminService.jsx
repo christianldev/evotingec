@@ -127,6 +127,26 @@ export const getAllConstituencies = () => {
 	});
 };
 
+export const getAllGenres = () => {
+	return new Promise((resolve, reject) => {
+		axios
+			.get(API + '/genre')
+			.then(function (response) {
+				// handle success
+				// console.log(response);
+				resolve(response);
+			})
+			.catch(function (error) {
+				// handle error
+				console.log(error);
+				reject(error);
+			})
+			.finally(function () {
+				// always executed
+			});
+	});
+};
+
 export const getElectionConstituencies = () => {
 	return new Promise((resolve, reject) => {
 		let ecs = [];
