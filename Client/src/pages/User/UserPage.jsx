@@ -69,7 +69,7 @@ const UserPage = () => {
 		return () => {
 			setProgress({
 				...progress,
-				msg: 'Checking is Voter...',
+				msg: 'Verificando si es votante',
 			});
 			checkIsVoter()
 				.then((v) => {

@@ -194,7 +194,7 @@ const Elections = (src, options) => {
 			setShowProgress(true);
 			setProgress({
 				...progress,
-				msg: 'No Constituencies',
+				msg: 'No hay padrones registrados',
 				warn: true,
 			});
 		}
@@ -369,7 +369,7 @@ const Elections = (src, options) => {
 							<h1
 								className="modal-title fs-5"
 								id="staticBackdropLabel">
-								Add Election
+								Agregar Elección
 							</h1>
 							<button
 								type="button"
@@ -386,16 +386,16 @@ const Elections = (src, options) => {
 						<div className="modal-footer">
 							<button
 								type="button"
-								className="btn btn-secondary"
+								className="btn btn-secondary text-gray-700"
 								data-bs-dismiss="modal"
 								onClick={() => eModal.hide()}>
-								Close
+								Cerrar
 							</button>
 							<button
 								type="button"
-								className="btn btn-primary"
+								className="btn btn-primary text-blue-500"
 								onClick={() => handleAddElection()}>
-								Save
+								Guardar
 							</button>
 						</div>
 					</div>

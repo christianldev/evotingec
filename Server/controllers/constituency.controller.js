@@ -2,7 +2,9 @@ const db = require('../models')
 const Constituency = db.constituency
 
 exports.create = (req, res) => {
-    const {name} = req.body
+    const { name } = req.body
+
+    console.log(name)
 
     const Const = {
         name: name
@@ -10,7 +12,7 @@ exports.create = (req, res) => {
     Constituency.create(Const)
         .then(r => res.send(r))
         .catch(err => {
-            res.status(500).send({message: err.message || 'Error creating Election'})
+            res.status(500).send({ message: err.message || 'Error creating Election' })
         })
 }
 
@@ -25,14 +27,14 @@ exports.findAll = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id
     Constituency.destroy({
-        where: {id: id}
+        where: { id: id }
     }).then(num => {
         if (num) {
-            res.status(200).send({"status": "success"})
+            res.status(200).send({ "status": "success" })
         } else {
-            res.status(404).send({"status": `not found constituency with id:id=${id}`})
+            res.status(404).send({ "status": `not found constituency with id:id=${id}` })
         }
     }).catch(err => {
-        res.send(500).send({"error": err.message, "status": `failed deleting constituency with id: ${id}`})
+        res.send(500).send({ "error": err.message, "status": `failed deleting constituency with id: ${id}` })
     })
 }

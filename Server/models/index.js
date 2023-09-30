@@ -23,11 +23,11 @@ db.elections = require("./election.model.js")(sequelize, Sequelize);
 db.constituency = require('./constituency.model')(sequelize, Sequelize)
 db.candidate = require('./candidate.model')(sequelize, Sequelize)
 db.user = require('./user.model')(sequelize, Sequelize)
-db.genre = require('./genre.model')(sequelize, Sequelize)
+// db.genre = require('./genre.model')(sequelize, Sequelize)
 
-db.elections.hasMany(db.constituency, { foreignKey: 'electionId', as: 'constituencies' })
+db.elections.belongsTo(db.constituency, { foreignKey: 'constituencyId', as: 'constituency' })
 // db.candidate.belongsTo(db.elections, {foreignKey: 'electionId', as: 'election'})
 db.user.belongsTo(db.constituency, { foreignKey: 'constituencyId', as: 'constituency' })
-db.user.belongsTo(db.genre, { foreignKey: 'genreId', as: 'genre' })
+// db.user.belongsTo(db.genre, { foreignKey: 'genreId', as: 'genre' })
 
 module.exports = db;

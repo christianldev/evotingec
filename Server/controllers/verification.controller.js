@@ -23,7 +23,7 @@ exports.sendMail = (req, res) => {
         from: process.env.GMAIL_EMAIL,
         to: email,
         subject: 'Verify your email',
-        html: `Please use the following verification code to verify your email: <strong>${verificationCode}</strong>`,
+        html: `Porfavor ingrese el siguiente codigo para verificar su correo: <b>${verificationCode}</b>`,
     };
 
     // Send the verification email

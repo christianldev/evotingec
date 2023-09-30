@@ -60,7 +60,6 @@ const HomePage = () => {
 			try {
 				registerVoter(voter)
 					.then((r) => {
-						console.log(r);
 						setProgress({
 							...progress,
 							success: true,
@@ -68,7 +67,10 @@ const HomePage = () => {
 						});
 						setVoter(Voter);
 						setRegister(false);
-						rModal.hide();
+						let i = setInterval(() => {
+							handleProgressClose();
+							clearInterval(i);
+						}, 3000);
 					})
 					.catch((err) => {
 						setProgress({
