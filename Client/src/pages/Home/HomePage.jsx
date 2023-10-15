@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import './homepage.css';
 import LoginComponent from '../../components/LoginComponent.jsx';
 import {Link, useNavigate} from 'react-router-dom';
@@ -6,10 +6,12 @@ import RegisterComponent from '../../components/RegisterComponent';
 import Web3Service from '../../services/Web3Service';
 import {
 	getAllConstituencies,
+	getAllElections,
 	verifyVoter,
 } from '../../services/AdminService';
 import {
 	registerVoter,
+	verifyToken,
 	voterLogin,
 } from '../../services/VoterService';
 import ProgressComponent from '../../components/ProgressComponent';
@@ -33,16 +35,42 @@ const HomePage = () => {
 	};
 
 	const [register, setRegister] = useState(false);
-	const [constituencies, setConstituencies] = useState([]);
+	const [elections, setElections] = useState([]);
 	const [voter, setVoter] = useState(Voter);
 	const [showProgress, setShowProgress] = useState(false);
 	const [progress, setProgress] = useState(Progress);
 	const [rModal, setRModal] = useState('');
 	const navigate = useNavigate();
 
+	const [SuccessMsg, setSuccessMsg] = useState('');
+	const [ErrorMsg, setErrorMsg] = useState('');
+	const [valid_token, setValidToken] = useState([]);
+
+	const captchaRef = useRef(null);
+
 	const onRegisterClick = () => {
 		setRegister(!register);
 		rModal.show();
+	};
+
+	const handleVerifyRecaptcha = async () => {
+		let token = captchaRef.current.getValue();
+		captchaRef.current.reset();
+
+		if (token) {
+			let valid_token = await verifyToken(token);
+			setValidToken(valid_token);
+
+			if (valid_token[0].success === true) {
+				console.log('verified');
+				setSuccessMsg(
+					'Has sido verificado, puedes continuar'
+				);
+			} else {
+				console.log('No verificado');
+				setErrorMsg('Lo sentimos, no eres humano');
+			}
+		}
 	};
 
 	const handleRegister = (voter) => {
@@ -53,29 +81,38 @@ const HomePage = () => {
 			voter.nationalId !== '' &&
 			voter.password !== '' &&
 			voter.birthDate !== '' &&
-			voter.email !== '' &&
-			voter.constituencyId !== ''
+			voter.email !== ''
 		) {
 			setProgress({...progress, msg: 'Registrando...'});
 			try {
-				registerVoter(voter)
-					.then((r) => {
-						console.log(r);
-						setProgress({
-							...progress,
-							success: true,
-							msg: 'Registro exitoso',
-						});
-						setVoter(Voter);
-						setRegister(false);
-						rModal.hide();
+				handleVerifyRecaptcha()
+					.then((recaptcha) => {
+						console.log(recaptcha);
+						registerVoter(voter)
+							.then((r) => {
+								console.log(r);
+								setProgress({
+									...progress,
+									success: true,
+									msg: 'Registro exitoso',
+								});
+								setVoter(Voter);
+								setRegister(false);
+								let i = setInterval(() => {
+									handleCloseProgress();
+									clearInterval(i);
+								}, 3000);
+							})
+							.catch((err) => {
+								setProgress({
+									...progress,
+									warn: true,
+									msg: err,
+								});
+							});
 					})
 					.catch((err) => {
-						setProgress({
-							...progress,
-							warn: true,
-							msg: err,
-						});
+						console.log(err);
 					});
 			} catch (err) {
 				setProgress({
@@ -165,9 +202,13 @@ const HomePage = () => {
 			new Web3Service().getCurrentAccount().then((a) => {
 				setRModal(new bootstrap.Modal('#r-modal'));
 				setVoter({...voter, userId: a});
-				getAllConstituencies().then((r) => {
-					setConstituencies(r.data);
-				});
+				// getAllConstituencies().then((r) => {
+				// 	setConstituencies(r.data);
+				// });
+				// getAllElections().then((r) => {
+				// 	console.log(r.data);
+				// 	setElections(r.data);
+				// });
 			});
 		};
 	}, []);
@@ -216,11 +257,15 @@ const HomePage = () => {
 										<RegisterComponent
 											voter={voter}
 											setVoter={setVoter}
-											constituencies={constituencies}
+											// constituencies={constituencies}
 											onRegister={(voter) =>
 												handleRegister(voter)
 											}
 											modal={rModal}
+											SuccessMsg={SuccessMsg}
+											ErrorMsg={ErrorMsg}
+											captchaRef={captchaRef}
+											valid_token={valid_token}
 										/>
 									</div>
 									<div className="absolute right-0 hidden h-full min-h-screen md:block lg:w-[49vw] 2xl:w-[44vw]">

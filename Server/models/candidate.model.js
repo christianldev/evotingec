@@ -12,7 +12,7 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.STRING,
         }, candidateSymbol: {
             type: DataTypes.STRING,
-        },electionId :{
+        }, electionId: {
             type: DataTypes.STRING,
         }
     });

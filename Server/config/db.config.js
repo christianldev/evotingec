@@ -2,7 +2,7 @@ module.exports = {
   HOST: "localhost",
   USER: "clopez",
   PASSWORD: "holamundo",
-  DB: "evotingdb",
+  DB: "evoting_relational",
   dialect: "mysql",
   pool: {
     max: 5,

@@ -1,7 +1,6 @@
 import React from 'react';
 
 const MyComponent = ({prop}) => {
-	console.log(prop.icon);
 	return (
 		<div>
 			<div className="!z-5 relative flex  bg-white bg-clip-border shadow-3xl shadow-shadow-500 dark:!bg-navy-800 dark:text-white dark:shadow-none !flex-row flex-grow items-center rounded-[20px]">

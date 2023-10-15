@@ -7,12 +7,15 @@ module.exports = (sequelize, Sequelize) => {
         }, fName: {
             type: DataTypes.STRING,
         }, nationalId: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING, unique: true
         }, email: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING, unique: true
         },
         birthDate: {
             type: DataTypes.DATE,
+        },
+        constituencyId: {
+            type: DataTypes.INTEGER,
         },
     });
 };

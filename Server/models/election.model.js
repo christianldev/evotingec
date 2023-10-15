@@ -2,9 +2,10 @@ DataTypes = require("sequelize");
 
 module.exports = (sequelize, Sequelize) => {
     return sequelize.define("election", {
-        electionId: {
+        decription: {
             type: DataTypes.STRING,
-        }, startDate: {
+        },
+        startDate: {
             type: DataTypes.DATE,
         }, endDate: {
             type: DataTypes.DATE,

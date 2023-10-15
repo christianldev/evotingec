@@ -13,9 +13,9 @@ exports.getCounts = async (req, res) => {
     }
 
     data.electionsCount = await Election.count()
-    data.activeElectionsCount = await Election.count({where: {status: true}})
+    data.activeElectionsCount = await Election.count({ where: { status: true } })
     data.votersCount = await User.count()
     data.constituencyCount = await Constituencies.count()
 
-    res.send({data: data})
+    res.send({ data: data })
 }

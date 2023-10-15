@@ -1,40 +1,63 @@
 const db = require('../models')
+const ConstituencyCouncil = db.constituency_council
 const Constituency = db.constituency
+const { v4: uuidv4 } = require('uuid')
 
-exports.create = (req, res) => {
-    const { name, recinto, direccion, province, canton, parroquia, zona, junta, generoId } = req.body
+exports.create = async (req, res) => {
+    const { electionId, enclosure, addressId, circunscriptionId, councilId } = req.body
 
-    const Const = {
-        name,
-        recinto,
-        direccion,
-        province,
-        canton,
-        parroquia,
-        zona,
-        junta,
-        generoId
-
-    }
-
-    console.log(Const)
-
-    if (!name || !recinto || !direccion || !province || !canton || !parroquia || !zona || !junta || !generoId) {
+    if (!electionId || !enclosure || !addressId || !circunscriptionId) {
         res.status(400).send({ message: 'Error, faltan datos' })
         return
     }
 
-    Constituency.create(Const)
-        .then(r => res.send(
-            {
-                message: 'Padron creado correctamente',
-                data: r
-            }
-        ))
-        .catch(err => {
-            res.status(500).send({ message: err.message || 'Error al crear el padron' })
-        })
+    //verify that election has status true 
+    const election = await db.elections.findOne({ where: { electionId } })
+    if (!election) {
+        res.status(400).send({ message: 'Error, la eleccion no existe' })
+        return
+    }
+    if (!election.dataValues.status) {
+        res.status(400).send({ message: 'Error, la eleccion no esta activa' })
+        return
+    }
+
+
+    const CONSTITUENCY = {
+        electionId,
+        enclosure,
+        addressId,
+        circunscriptionId,
+        constituencyId: uuidv4()
+    }
+
+
+
+    try {
+        const verifyIfExist = await Constituency.findOne({ where: { electionId } })
+        if (verifyIfExist) {
+            res.status(400).send({ message: 'Error, el padron ya existe' })
+            return
+        }
+
+        const constituency = await Constituency.create(CONSTITUENCY)
+        console.log(constituency)
+
+        if (councilId) {
+            const constituencyCouncil = await ConstituencyCouncil.create({ constituencyId: constituency.id, councilId })
+        }
+        res.status(200).send({ message: 'Padron creado correctamente' })
+
+    } catch (error) {
+        res.status(500).send({ message: error.message || 'Error al crear la eleccion' })
+    }
+
+
+
 }
+
+
+
 
 exports.findAll = (req, res) => {
     Constituency.findAll().then(d => {

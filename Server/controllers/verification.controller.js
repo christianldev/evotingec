@@ -4,41 +4,52 @@ exports.sendMail = (req, res) => {
 
     const { email } = req.body;
 
+    if (email === '') {
+        res.status(400).json({ message: 'Email es requerido' });
+    }
 
-    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+    try {
 
-    const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        service: 'gmail',
-        auth: {
-            user: process.env.GMAIL_EMAIL,
-            pass: process.env.GMAIL_PASSWORD,
-        },
-    });
+        const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            service: 'gmail',
+            auth: {
+                user: process.env.GMAIL_EMAIL,
+                pass: process.env.GMAIL_PASSWORD,
+            },
+        });
 
 
-    const mailOptions = {
-        from: process.env.GMAIL_EMAIL,
-        to: email,
-        subject: 'Verify your email',
-        html: `Please use the following verification code to verify your email: <strong>${verificationCode}</strong>`,
-    };
+        const mailOptions = {
+            from: process.env.GMAIL_EMAIL,
+            to: email,
+            subject: 'Verifica tu correo electronico',
+            html: `Por favor ingrese el siguiente codigo para verificar su correo electronico: <b>${verificationCode}</b>`,
+        };
 
-    // Send the verification email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Failed to send verification email.');
-        } else {
+        // Send the verification email
+        transporter.sendMail(mailOptions, (error, info) => {
 
-            req.session.email = email;
-            req.session.verificationCode = verificationCode;
-            console.log(req.session.verificationCode)
-            res.status(200).send('Verification email sent successfully!');
-        }
-    });
+            if (error) {
+
+                res.status(500).send('Failed to send verification email.');
+            } else {
+
+                req.session.email = email;
+                req.session.verificationCode = verificationCode;
+                console.log(req.session.verificationCode)
+                res.status(200).send('Verification email sent successfully!');
+            }
+        });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Fallo al enviar el correo de verificacion.');
+    }
 }
 
 exports.verifyOTP = (req, res) => {

@@ -11,5 +11,7 @@ module.exports = app => {
 
     router.delete('/:id', user.delete)
 
+    router.post('/verify-recaptcha', user.verifyCapcha)
+
     app.use('/api/user', router)
 }

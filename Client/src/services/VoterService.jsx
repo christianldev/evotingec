@@ -4,8 +4,11 @@ import {getAllElections} from './AdminService';
 
 const API = import.meta.env.VITE_API;
 const ws = new Web3Service();
+const SECRET_KEY = import.meta.env
+	.VITE_GOOGLE_RECAPTCHA_SECRET_KEY;
 
 export const registerVoter = (data) => {
+	console.log(data);
 	let user = null;
 	return new Promise((resolve, reject) => {
 		axios
@@ -204,4 +207,23 @@ export const verifyOTP = (otp) => {
 
 export const getElectionDetails = (eId) => {
 	return axios.get(API + '/election/' + eId);
+};
+
+export const verifyToken = async (token) => {
+	let APIResponse = [];
+
+	try {
+		let response = await axios.post(
+			API + `/user/verify-recaptcha`,
+			{
+				reCAPTCHA_TOKEN: token,
+				Secret_Key: SECRET_KEY,
+			}
+		);
+
+		APIResponse.push(response['data']);
+		return APIResponse;
+	} catch (error) {
+		console.log(error);
+	}
 };

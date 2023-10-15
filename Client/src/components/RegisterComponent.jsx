@@ -1,19 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
+
 import {
 	sentVerificationCode,
 	verifyOTP,
 } from '../services/VoterService';
 
 import {FaCircleXmark} from 'react-icons/fa6';
+import RecaptchaComponent from './RecaptchaComponent/RecaptchaComponent';
 
 const RegisterComponent = ({
 	voter,
 	setVoter,
-	constituencies,
 	onRegister,
 	modal,
+	valid_token,
+	SuccessMsg,
+	ErrorMsg,
+	captchaRef,
 }) => {
-	const [constituency, setConstituency] = useState('');
 	const [OTP, setOTP] = useState('');
 	const [otpSent, setOtpSent] = useState(false);
 	const [verificationStatus, setVerificationStatus] =
@@ -21,15 +25,6 @@ const RegisterComponent = ({
 	const [validEmail, setValidEmail] = useState('');
 
 	const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-	const handleConstituencyChange = (c) => {
-		console.log(constituencies);
-		setVoter({...voter, constituencyId: parseInt(c)});
-		setConstituency(
-			constituencies.filter(
-				(co) => co.id === parseInt(c)
-			)[0].name
-		);
-	};
 
 	const validateEmail = (event) => {
 		setVoter({...voter, email: event.target.value});
@@ -228,33 +223,12 @@ const RegisterComponent = ({
 						) : null}
 
 						<div className="col-12">
-							<div className="form-floating mb-1 rounded-2 border border-primary">
-								<input
-									name="constituency"
-									className="form-control"
-									list="datalistOptions"
-									id="exampleDataList"
-									placeholder="Type to search..."
-									value={constituency}
-									onChange={(event) =>
-										handleConstituencyChange(
-											event.target.value
-										)
-									}
-								/>
-								<datalist
-									id="datalistOptions"
-									className="bg-light">
-									{constituencies.map((c, i) => (
-										<option key={i} value={c.id}>
-											{c.name}
-										</option>
-									))}
-								</datalist>
-								<label htmlFor="floatingInput">
-									Constituency
-								</label>
-							</div>
+							<RecaptchaComponent
+								valid_token={valid_token}
+								ErrorMsg={ErrorMsg}
+								captchaRef={captchaRef}
+								SuccessMsg={SuccessMsg}
+							/>
 						</div>
 						<div className="col-12">
 							<button
