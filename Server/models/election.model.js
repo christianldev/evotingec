@@ -2,6 +2,11 @@ DataTypes = require("sequelize");
 
 module.exports = (sequelize, Sequelize) => {
     return sequelize.define("election", {
+        electionId: {
+            type: DataTypes.STRING,
+            primaryKey: true,
+            unique: true,
+        },
         decription: {
             type: DataTypes.STRING,
         },

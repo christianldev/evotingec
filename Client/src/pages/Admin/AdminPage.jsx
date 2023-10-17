@@ -352,7 +352,7 @@ const AdminPage = () => {
 										</button>
 									</div>
 								</nav>
-								<div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
+								<div className="pt-2 mx-auto mb-auto h-full min-h-[84vh] md:pr-2">
 									<Outlet />
 								</div>
 							</div>

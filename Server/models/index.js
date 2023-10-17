@@ -32,6 +32,8 @@ db.province = require('./province.model')(sequelize, Sequelize)
 db.district = require('./district.model')(sequelize, Sequelize)
 db.parish = require('./parish.model')(sequelize, Sequelize)
 
+/* ------------------------------------------------ */
+/* -------------- Election Relationship -------------- */
 db.elections.hasMany(db.constituency, { foreignKey: 'electionId', as: 'constituencies' })
 db.constituency.belongsTo(db.elections, { foreignKey: 'electionId', as: 'election' })
 

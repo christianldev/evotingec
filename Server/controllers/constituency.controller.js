@@ -1,6 +1,8 @@
 const db = require('../models')
 const ConstituencyCouncil = db.constituency_council
 const Constituency = db.constituency
+const Address = db.address
+const Council = db.council
 const { v4: uuidv4 } = require('uuid')
 
 exports.create = async (req, res) => {
@@ -60,11 +62,24 @@ exports.create = async (req, res) => {
 
 
 exports.findAll = (req, res) => {
-    Constituency.findAll().then(d => {
-        res.send(d)
-    }).catch(err => {
-        res.send(err.message)
-    })
+    // join with address and join with provinces, districts, parishes and council table
+    const constituency = db.sequelize.query(`SELECT constituencies.id ,constituencies.enclosure, constituencies.circunscriptionId, addresses.address, provinces.name AS province,
+        districts.name AS district, parishes.name AS parish, councils.number AS council, councils.gender AS councilGender
+       FROM constituencies INNER JOIN addresses ON constituencies.addressId = addresses.addressId
+    INNER JOIN constituency_councils ON constituencies.id = constituency_councils.constituencyId
+    INNER JOIN councils ON constituency_councils.councilId = councils.id INNER JOIN parishes
+        ON addresses.parishId = parishes.id INNER JOIN districts ON addresses.districtId = districts.id
+    INNER JOIN provinces ON addresses.provinceId = provinces.id`, { type: db.sequelize.QueryTypes.SELECT })
+        .then(data => {
+
+            res.send(data)
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || 'Error al recuperar los datos' })
+        })
+
+
+
 }
 
 exports.delete = (req, res) => {
