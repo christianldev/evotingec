@@ -7,12 +7,15 @@ const ws = new Web3Service();
 const SECRET_KEY = import.meta.env
 	.VITE_GOOGLE_RECAPTCHA_SECRET_KEY;
 
-export const registerVoter = (data) => {
-	console.log(data);
+export const registerVoter = (data, recaptcha) => {
+	console.log(recaptcha);
 	let user = null;
 	return new Promise((resolve, reject) => {
 		axios
-			.post(API + '/user', data)
+			.post(API + '/user', {
+				data,
+				recaptcha,
+			})
 			.then((u) => {
 				user = u.data;
 				ws.getContract().then((c) => {

@@ -1,4 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {
+	useCallback,
+	useEffect,
+	useState,
+} from 'react';
 import user_icon from '../../../assets/images/user.png';
 import picture from '../../../assets/images/picture.png';
 import './candidates.css';
@@ -7,6 +11,7 @@ import {
 	getAllElections,
 } from '../../../services/AdminService';
 import ProgressComponent from '../../../components/ProgressComponent';
+import {useDropzone} from 'react-dropzone';
 
 const Candidates = () => {
 	let Candidate = {
@@ -29,6 +34,7 @@ const Candidates = () => {
 	const [progress, setProgress] = useState(Progress);
 	const [showProgress, setShowProgress] = useState(false);
 	const [elections, setElections] = useState([]);
+	const [fileUpload, setFileUpload] = useState(null);
 
 	const handleElectionChange = (id) => {
 		setCandidate({...candidate, electionId: id});
@@ -126,6 +132,29 @@ const Candidates = () => {
 		setProgress(Progress);
 		setShowProgress(false);
 	}
+
+	const onDrop = useCallback(
+		async (acceptedFile) => {
+			const file = acceptedFile[0];
+
+			setFileUpload({
+				type: 'image',
+				file,
+				preview: URL.createObjectURL(file),
+			});
+		},
+		[setFileUpload]
+	);
+
+	const {getRootProps, getInputProps} = useDropzone({
+		accept: {
+			'image/jpeg': ['.jpg', '.jpeg'],
+			'image/png': ['.png'],
+		},
+		noKeyboard: false,
+		multiple: false,
+		onDrop,
+	});
 
 	useEffect(() => {
 		return () => {
@@ -306,12 +335,13 @@ const Candidates = () => {
 						</div>
 					</div>
 					<button
-						type="submit "
+						{...getRootProps()}
 						id="btn btn-primary"
 						className="btn btn-primary"
 						onClick={() => handleAddCandidate()}>
 						Agregar candidato
 					</button>
+					<input {...getInputProps()} />
 				</div>
 			) : (
 				<>{progress.msg}</>

@@ -13,51 +13,53 @@ const requestIP = require('request-ip');
 
 exports.create = async (req, res) => {
 
-    const { userId, email, birthDate, nationalId, password, reCAPTCHA_TOKEN } = req.body
+    const { data, recaptcha } = req.body
     // obtain ip of user 
     const ip = requestIP.getClientIp(req);
 
-
-    if (!userId || !email || !birthDate || !nationalId || !password || !ip || !reCAPTCHA_TOKEN) {
+    if (!data.userId || !data.email || !data.birthDate || !data.nationalId || !data.password || !ip || !recaptcha) {
         return res.status(400).send({ message: 'Faltan datos' })
 
     }
 
     try {
 
+        // const getPadron = await this.GetPadron(res, data.nationalId, ip, data.birthDate, recaptcha)
+        // console.log("getPadron", getPadron)
 
-
-        const getPadron = await this.GetPadron(res, nationalId, ip, birthDate, reCAPTCHA_TOKEN)
-
-        console.log("getPadron", getPadron)
-
-
-
-        const response = await axios.get(`https://srienlinea.sri.gob.ec/movil-servicios/api/v1.0/deudas/porIdentificacion/${nationalId}/?tipoPersona=N`)
-
+        const response = await axios.get(`https://srienlinea.sri.gob.ec/movil-servicios/api/v1.0/deudas/porIdentificacion/${data.nationalId}/?tipoPersona=N`)
         if (response.status !== 200) {
             return res.status(500).send({ message: 'Cedula incorrecta' })
         }
-
-
-
 
         else if (response.status === 200) {
 
 
             const { nombreComercial } = response.data.contribuyente
 
+            // get latest constituencyId in Sequelize 
+            const constituencyId = await Constituency.findAll({
+                limit: 1,
+                order: [['createdAt', 'DESC']]
+            })
+
+            const [constituency] = constituencyId
+            const { dataValues } = constituency
+
+
             const USER = {
-                userId: userId,
-                constituencyId: constituencyId,
+                userId: data.userId,
+                constituencyId: dataValues.id,
                 fName: nombreComercial,
-                nationalId: nationalId,
-                email: email,
-                birthDate: birthDate,
+                nationalId: data.nationalId,
+                email: data.email.toLowerCase(),
+                birthDate: data.birthDate,
             }
 
-            // search if email and nationalId exists in database 
-            const user = await User.findOne({ where: { [op.or]: [{ email: email.toLowerCase() }, { nationalId }] } })
+
+
+            // search if email and nationalId exists in database without op or
+            const user = await User.findOne({ where: { email: data.email, nationalId: data.nationalId } })
             if (user) {
 
                 return res.status(400).send({

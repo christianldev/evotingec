@@ -217,7 +217,7 @@ const RegisterComponent = ({
 									id="send-otp"
 									className="btn btn-dark"
 									onClick={() => handleOtpSend()}>
-									SEND OTP
+									Enviar OTP
 								</button>
 							</div>
 						) : null}

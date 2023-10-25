@@ -10,9 +10,10 @@
 	"author": "shamil-t",
 	"license": "ISC",
 	"dependencies": {
+		"aws-sdk": "^2.1479.0",
 		"axios": "^1.5.1",
 		"cors": "^2.8.5",
-		"dotenv": "^16.0.3",
+		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
 		"express-routemap": "^1.6.0",
 		"express-session": "^1.17.3",

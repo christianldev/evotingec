@@ -26,6 +26,7 @@ const HomePage = () => {
 		email: '',
 		constituencyId: '',
 		otp: '',
+		recaptcha: '',
 	};
 
 	let Progress = {
@@ -66,6 +67,8 @@ const HomePage = () => {
 				setSuccessMsg(
 					'Has sido verificado, puedes continuar'
 				);
+				console.log(token);
+				return token;
 			} else {
 				console.log('No verificado');
 				setErrorMsg('Lo sentimos, no eres humano');
@@ -86,9 +89,8 @@ const HomePage = () => {
 			setProgress({...progress, msg: 'Registrando...'});
 			try {
 				handleVerifyRecaptcha()
-					.then((recaptcha) => {
-						console.log(recaptcha);
-						registerVoter(voter)
+					.then((valid_token) => {
+						registerVoter(voter, valid_token)
 							.then((r) => {
 								console.log(r);
 								setProgress({
