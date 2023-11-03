@@ -52,6 +52,7 @@ export const addElection = (data) => {
 		axios.post(API + '/election', data).then((r) => {
 			if (r.status === 200) {
 				election = r.data;
+				console.log(election);
 				ws.getContract().then((c) => {
 					ws.getCurrentAccount().then((a) => {
 						c.methods
@@ -175,7 +176,8 @@ export const getElectionConstituencies = () => {
 // Candidates
 
 export const addCandidate = (data) => {
-	console.log(data.get('candidateImage'));
+	// console.log(data.get('candidateImage'));
+
 	return new Promise((resolve, reject) => {
 		axios
 			.post(API + '/candidate', data, {
@@ -186,7 +188,7 @@ export const addCandidate = (data) => {
 			.then((result) => {
 				ws.getContract().then((c) => {
 					ws.getCurrentAccount().then((a) => {
-						console.log(result.data.id);
+						console.log(result);
 						c.methods
 							.addCandidate(
 								result.data.id.toString(),
@@ -284,7 +286,7 @@ export const getCounts = async () => {
 	});
 	data.activeVoters = activeVoters.length;
 	await axios.get(API + '/count').then((r) => {
-		console.log(r);
+		// console.log(r);
 		let _d = r.data.data;
 		data.activeElectionsCount = _d.activeElectionsCount;
 		data.constituencyCount = _d.constituencyCount;
@@ -305,17 +307,23 @@ export const getElectionResults = (eId) => {
 				.then((result) => {
 					getAllCandidatesServer()
 						.then((r) => {
-							console.log(r);
 							let _candidates = r.data;
 							if (result.length === 0)
 								reject('No hay resultados');
+
 							_candidates.forEach((c, i) => {
-								c.votes = result.filter(
-									(a, k) => c.id === parseInt(a.id)
-								)[0].voteCount;
-								data.push(c);
-								if (data.length === result.length)
+								result.forEach((r, i) => {
+									if (c.id === parseInt(r.id)) {
+										data.push({
+											...c,
+											votes: r.voteCount,
+										});
+									}
+								});
+
+								if (i === _candidates.length - 1) {
 									resolve(data);
+								}
 							});
 						})
 						.catch((err) => {

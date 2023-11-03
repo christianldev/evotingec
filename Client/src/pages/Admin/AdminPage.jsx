@@ -111,10 +111,10 @@ const AdminPage = () => {
 	}, []);
 
 	return (
-		<div className="flex h-full w-full">
+		<div className="flex justify-center items-center h-full w-full">
 			{isAdmin && login ? (
-				<>
-					<div className="sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 translate-x-0">
+				<div className="flex h-full w-full">
+					<div className="sm:none duration-175 linear fixed !z-50 flex  min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 translate-x-0">
 						<span className="absolute top-4 right-4 block cursor-pointer xl:hidden">
 							<svg
 								stroke="currentColor"
@@ -358,7 +358,7 @@ const AdminPage = () => {
 							</div>
 						</main>
 					</div>
-				</>
+				</div>
 			) : isAdmin && !login ? (
 				<div className="admin-login">
 					<AdminLogin onLogin={(v) => onLogin(v)} />

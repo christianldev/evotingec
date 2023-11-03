@@ -21,7 +21,7 @@ const Elections = (src, options) => {
 	let Election = {
 		startDate: '',
 		endDate: '',
-		constituencyId: '',
+		description: '',
 	};
 	let Progress = {
 		success: false,
@@ -61,7 +61,7 @@ const Elections = (src, options) => {
 		if (
 			election.endDate !== '' &&
 			election.startDate !== '' &&
-			election.constituencyId !== ''
+			election.description !== ''
 		) {
 			setProgress({
 				...progress,
@@ -106,23 +106,21 @@ const Elections = (src, options) => {
 
 	const handleViewCandidates = (eId) => {
 		const candidateModal = new bootstrap.Modal('#c-modal');
-		console.log(allCandidates);
+
 		setCandidates(
 			allCandidates.filter((c, i) => c.electionId === eId)
 		);
 		candidateModal.show();
-		console.log(
-			allCandidates.filter((c, i) => {
-				console.log(c, eId);
-				return c.electionId === eId;
-			})
-		);
+		// console.log(
+		// 	allCandidates.filter((c, i) => {
+		// 		console.log(c, eId);
+		// 		return c.electionId === eId;
+		// 	})
+		// );
 	};
 
 	const onUpdateElection = (e) => {
-		console.log(e);
 		updateElection(e).then((r) => {
-			console.log(r);
 			getElections();
 		});
 	};
@@ -182,23 +180,25 @@ const Elections = (src, options) => {
 		});
 	};
 
-	function getConstituencyName(id) {
-		return constituencies.filter((c, i) => c.id === id)[0]
-			?.name;
-	}
+	// function getConstituencyName(id) {
+	// 	return constituencies.filter((c, i) => c.id === id)[0]
+	// 		?.name;
+	// }
 
 	const handleOnAddElection = () => {
-		if (constituencies.length >= 1) {
-			eModal.show();
-		} else {
-			setShowProgress(true);
-			setProgress({
-				...progress,
-				msg: 'No hay un padron registrado',
-				warn: true,
-			});
-		}
+		// if (constituencies.length >= 1) {
+		// 	eModal.show();
+		// } else {
+		// 	setShowProgress(true);
+		// 	setProgress({
+		// 		...progress,
+		// 		msg: 'No hay un padron registrado',
+		// 		warn: true,
+		// 	});
+		// }
+		eModal.show();
 	};
+
 	return (
 		<div className="pt-5 mx-auto mb-auto h-full min-h-[84vh] md:pr-2">
 			<div className="container-fluid" id="pdf"></div>
@@ -232,135 +232,148 @@ const Elections = (src, options) => {
 						</tr>
 					</thead>
 					<tbody className="table-group-divider">
-						{elections.map((election, index) => (
-							<tr key={index}>
-								<th scope="row">{index + 1}</th>
-								<td className="election-data">
-									{election.electionId}
-									<br />
-									{getConstituencyName(
-										election.constituencyId
-									)}
+						{elections.length < 1 ? (
+							<tr>
+								<td colSpan="7" className="text-center">
+									No hay elecciones registradas
 								</td>
-								<td className="election-data">
-									<button
-										className="btn bn-sm btn-dark btn-w-80"
-										onClick={() =>
-											handleViewCandidates(
-												election.electionId
-											)
-										}>
-										<i className="fa-solid fa-eye"></i> Ver
-									</button>
-								</td>
-								<td className="election-data">
-									{formatDate(election.startDate)}
-								</td>
-								<td className="election-data">
-									{formatDate(election.endDate)}
-								</td>
-								<td className="election-data">
-									<div className="d-flex">
-										{/*<button className="btn btn-sm btn-danger mx-1">STOP</button>*/}
+							</tr>
+						) : (
+							elections.map((election, index) => (
+								<tr key={index}>
+									<th scope="row">{index + 1}</th>
+									<td className="election-data">
+										{election.electionId}
+										<br />
+										{/* {getConstituencyName(
+											election.constituencyId
+										)} */}
+										{election.description}
+									</td>
+									<td className="election-data">
+										<button
+											className="btn bn-sm btn-dark btn-w-80"
+											onClick={() =>
+												handleViewCandidates(
+													election.electionId
+												)
+											}>
+											<i className="fa-solid fa-eye"></i>{' '}
+											Ver
+										</button>
+									</td>
+									<td className="election-data">
+										{formatDate(election.startDate)}
+									</td>
+									<td className="election-data">
+										{formatDate(election.endDate)}
+									</td>
+									<td className="election-data">
+										<div className="d-flex">
+											{/*<button className="btn btn-sm btn-danger mx-1">STOP</button>*/}
 
-										{election.status ? (
+											{election.status ? (
+												<button
+													className="btn btn-sm btn-danger mx-1 btn-w-80"
+													onClick={() =>
+														onUpdateElection({
+															...election,
+															status: false,
+														})
+													}>
+													<i className="fa-solid fa-stop"></i>
+													&nbsp; Detener
+												</button>
+											) : (
+												<button
+													className="btn btn-sm btn-success mx-1 btn-w-40"
+													onClick={() =>
+														onUpdateElection({
+															...election,
+															status: true,
+														})
+													}>
+													<i className="fa-solid fa-play"></i>
+													&nbsp; Iniciar
+												</button>
+											)}
+
+											{election.result ? (
+												<button
+													className="btn btn-sm btn-info mx-1 "
+													onClick={() =>
+														onUpdateElection({
+															...election,
+															result: false,
+														})
+													}>
+													<i className="fa-solid fa-download"></i>
+													&nbsp; No publicar
+												</button>
+											) : null}
+											{!election.result ? (
+												<button
+													className="btn btn-sm btn-warning mx-1 btn-w-40"
+													onClick={() =>
+														onUpdateElection({
+															...election,
+															result: true,
+														})
+													}>
+													<i className="fa-solid fa-upload"></i>
+													&nbsp; Publicar
+												</button>
+											) : null}
+
 											<button
-												className="btn btn-sm btn-danger mx-1 btn-w-80"
+												className="btn btn-sm btn-danger mx-1 px-3"
 												onClick={() =>
-													onUpdateElection({
-														...election,
-														status: false,
-													})
+													handleDeleteElection(
+														election.electionId
+													)
 												}>
-												<i className="fa-solid fa-stop"></i>
-												&nbsp; Detener
+												<i className="fa-solid fa-trash"></i>
+											</button>
+										</div>
+									</td>
+									<td>
+										{candidates.length >= 2 ? (
+											<button
+												className="btn btn-sm btn-outline-primary"
+												onClick={() =>
+													handleGenerateElectionReport(
+														election.electionId
+													)
+												}
+												// target="_blank"
+												// to={`/report/${election.electionId}`}
+											>
+												<i className="fa-solid fa-file-pdf"></i>{' '}
+												Generar
 											</button>
 										) : (
 											<button
-												className="btn btn-sm btn-success mx-1 btn-w-40"
-												onClick={() =>
-													onUpdateElection({
-														...election,
-														status: true,
-													})
-												}>
-												<i className="fa-solid fa-play"></i>
-												&nbsp; Iniciar
+												className="btn btn-sm btn-outline-primary"
+												disabled>
+												<i className="fa-solid fa-file-pdf"></i>{' '}
+												Generar
 											</button>
 										)}
-
-										{election.result ? (
-											<button
-												className="btn btn-sm btn-info mx-1 "
-												onClick={() =>
-													onUpdateElection({
-														...election,
-														result: false,
-													})
-												}>
-												<i className="fa-solid fa-download"></i>
-												&nbsp; No publicar
-											</button>
-										) : null}
-										{!election.result ? (
-											<button
-												className="btn btn-sm btn-warning mx-1 btn-w-40"
-												onClick={() =>
-													onUpdateElection({
-														...election,
-														result: true,
-													})
-												}>
-												<i className="fa-solid fa-upload"></i>
-												&nbsp; Publicar
-											</button>
-										) : null}
-
-										<button
-											className="btn btn-sm btn-danger mx-1 px-3"
-											onClick={() =>
-												handleDeleteElection(election.id)
-											}>
-											<i className="fa-solid fa-trash"></i>
-										</button>
-									</div>
-								</td>
-								<td>
-									{candidates.length >= 2 ? (
-										<button
-											className="btn btn-sm btn-outline-primary"
-											onClick={() =>
-												handleGenerateElectionReport(
-													election.electionId
-												)
-											}
-											// target="_blank"
-											// to={`/report/${election.electionId}`}
-										>
-											<i className="fa-solid fa-file-pdf"></i>{' '}
-											Generar
-										</button>
-									) : (
-										<button
-											className="btn btn-sm btn-outline-primary"
-											disabled>
-											<i className="fa-solid fa-file-pdf"></i>{' '}
-											Generar
-										</button>
-									)}
-								</td>
-							</tr>
-						))}
+									</td>
+								</tr>
+							))
+						)}
 					</tbody>
 				</table>
 			</div>
 			{/* Add Election Modal */}
+
 			<div
 				className="modal fade"
-				id="e-modal"
 				data-bs-backdrop="static"
 				data-bs-keyboard="false"
 				tabIndex="-1"
+				id="e-modal"
 				aria-labelledby="staticBackdropLabel"
 				aria-hidden="true">
 				<div className="modal-dialog">
@@ -369,16 +382,18 @@ const Elections = (src, options) => {
 							<h1
 								className="modal-title fs-5"
 								id="staticBackdropLabel">
-								Add Election
+								Agregar Eleccion
 							</h1>
 							<button
 								type="button"
 								className="btn-close"
-								onClick={() => eModal.hide()}></button>
+								data-bs-dismiss="modal">
+								X
+							</button>
 						</div>
 						<div className="modal-body">
 							<AddElection
-								constituencies={constituencies}
+								// constituencies={constituencies}
 								election={election}
 								setElection={setElection}
 							/>
@@ -401,6 +416,7 @@ const Elections = (src, options) => {
 					</div>
 				</div>
 			</div>
+
 			{/*    Candidates Modal */}
 			<div
 				className="modal fade"
@@ -439,7 +455,7 @@ const Elections = (src, options) => {
 						<div className="modal-footer">
 							<button
 								type="button"
-								className="btn btn-secondary text-gray-500"
+								className="bg-gray-800 hover:bg-gray-900 text-gray-300 px-3 py-1 rounded-2"
 								data-bs-dismiss="modal">
 								Cerrar
 							</button>

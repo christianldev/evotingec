@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             unique: true,
         },
-        decription: {
+        description: {
             type: DataTypes.STRING,
         },
         startDate: {
@@ -18,6 +18,10 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.BOOLEAN,
         }, result: {
             type: DataTypes.BOOLEAN,
-        }
+        },
+        deleteStatus: {
+            type: DataTypes.BOOLEAN,
+        },
+
     });
 };

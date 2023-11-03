@@ -7,6 +7,14 @@ exports.create = (req, res) => {
 
     const { description, startDate, endDate } = req.body
 
+    console.log(req.body)
+
+    if (!description || !startDate || !endDate) {
+        res.status(400).send({ message: 'Error, faltan datos' })
+        return
+    }
+
+
     // generate unique id for election 
     const electionId = uuidv4()
 
@@ -16,51 +24,64 @@ exports.create = (req, res) => {
         description,
         startDate: startDate,
         endDate: endDate,
-        status: false,
-        result: false
+        status: true,
+        result: false,
+        deleteStatus: false
     }
 
-    Election.create(ELECTION)
-        .then(r => res.send(r))
-        .catch(err => {
-            res.status(500).send({ message: err.message || 'Error al crear la eleccion' })
-        })
+    try {
+        Election.create(ELECTION)
+            .then(r => res.send(r))
+            .catch(err => {
+                res.status(500).send({ message: err.message || 'Error al crear la eleccion' })
+            })
+
+
+    }
+    catch (err) {
+        res.status(500).send({
+            message: err
+        });
+    }
 
 }
 
 exports.findAll = (req, res) => {
     let data = []
-    Election.findAll().then(d => {
-        if (d.length === 0) {
-            res.send(data)
-        }
-        else {
-            d.forEach((e, i) => {
-                // console.log(e.dataValues)
-                let _e = e.dataValues
-
-                Constituency.findOne({ electionId: e.electionId }).then(c => {
-                    _e.constituency = c.dataValues
-                    // console.log(_e)
-                    data.push(_e)
-                    if (data.length === d.length) res.send(data)
-                })
+    try {
+        // get only active elections 
+        Election.findAll({ where: { deleteStatus: false } }).then(r => {
+            r.forEach(e => {
+                data.push(e.dataValues)
             })
-        }
-    }).catch(err => res.send(err.message))
+            res.send(data)
+        })
+    }
+    catch (err) {
+        res.status(500).send({
+            message: err.message
+        });
+    }
 }
 
 exports.delete = (req, res) => {
-    let id = req.params.id
-    Election.destroy({ where: { id: id } }).then(r => {
-        if (r) {
-            res.status(200).send({ "status": "success", "msg": `Eleccion con id ${id} eliminada` })
+    let electionId = req.params.id
+
+    // logical delete 
+    Election.update({ deleteStatus: true }, {
+        where: { electionId }
+    }).then(r => {
+        // console.log(r)
+        if (r[0] === 1) {
+            res.send({ status: "success", msg: `Eleccion con id ${electionId} eliminada` })
         }
         else {
-            res.status(404).send({ "status": "success", "msg": `Eleccion con id ${id} no encontrada` })
+            res.status(404).send({ status: "failed", msg: `Eleccion con id ${electionId} no encontrada` })
         }
     }).catch(err => {
-        res.send({ "status": "failed", "msg": "Fallo al eliminar eleccion" })
+        res.status(500).send({
+            message: err.message
+        });
     })
 }
 
@@ -87,9 +108,12 @@ exports.update = (req, res) => {
 exports.findElectionByEId = (req, res) => {
     let eid = req.params.id
 
+
     Election.findOne({ where: { electionId: eid } }).then(r => {
+        console.log(r.dataValues)
         let election = r.dataValues
-        Constituency.findByPk(election.constituencyId).then(r => {
+        Constituency.findOne({ where: { electionId: election.electionId } }).then(r => {
+
             election.constituency = r.dataValues
             res.send(election)
         })

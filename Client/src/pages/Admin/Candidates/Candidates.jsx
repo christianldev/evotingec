@@ -1,8 +1,4 @@
-import React, {
-	useCallback,
-	useEffect,
-	useState,
-} from 'react';
+import React, {useEffect, useState} from 'react';
 import user_icon from '../../../assets/images/user.png';
 import picture from '../../../assets/images/picture.png';
 import './candidates.css';
@@ -11,7 +7,6 @@ import {
 	getAllElections,
 } from '../../../services/AdminService';
 import ProgressComponent from '../../../components/ProgressComponent';
-import {useDropzone} from 'react-dropzone';
 
 const Candidates = () => {
 	let Candidate = {
@@ -34,13 +29,12 @@ const Candidates = () => {
 	const [progress, setProgress] = useState(Progress);
 	const [showProgress, setShowProgress] = useState(false);
 	const [elections, setElections] = useState([]);
-	const [fileUpload, setFileUpload] = useState(null);
 
 	const handleElectionChange = (id) => {
 		setCandidate({...candidate, electionId: id});
 		setConstituency(
 			elections.filter((e, i) => e.electionId === id)[0]
-				.constituency.name
+				.description
 		);
 	};
 
@@ -92,7 +86,6 @@ const Candidates = () => {
 
 			addCandidate(data)
 				.then((r) => {
-					console.log(r);
 					if (r) {
 						setCandidate(Candidate);
 						setPreviewSymbol('');
@@ -113,7 +106,7 @@ const Candidates = () => {
 				.catch((err) => {
 					setProgress({
 						...progress,
-						msg: 'Failed Adding Candidate',
+						msg: 'Error al agregar candidato',
 						warn: true,
 						success: false,
 					});
@@ -121,7 +114,7 @@ const Candidates = () => {
 		} else {
 			setProgress({
 				...progress,
-				msg: 'Fill all the details',
+				msg: 'Ingresa todos los campos',
 				warn: true,
 				success: false,
 			});
@@ -133,39 +126,17 @@ const Candidates = () => {
 		setShowProgress(false);
 	}
 
-	const onDrop = useCallback(
-		async (acceptedFile) => {
-			const file = acceptedFile[0];
-
-			setFileUpload({
-				type: 'image',
-				file,
-				preview: URL.createObjectURL(file),
-			});
-		},
-		[setFileUpload]
-	);
-
-	const {getRootProps, getInputProps} = useDropzone({
-		accept: {
-			'image/jpeg': ['.jpg', '.jpeg'],
-			'image/png': ['.png'],
-		},
-		noKeyboard: false,
-		multiple: false,
-		onDrop,
-	});
-
 	useEffect(() => {
 		return () => {
 			getAllElections()
 				.then((r) => {
-					setElections(r.data);
 					if (r.data.length === 0) {
 						setProgress({
 							...progress,
 							msg: 'No hay candidatos...!',
 						});
+					} else {
+						setElections(r.data);
 					}
 				})
 				.catch((err) => {
@@ -326,7 +297,7 @@ const Candidates = () => {
 									className="bg-light ">
 									{elections.map((ec, i) => (
 										<option key={i} value={ec.electionId}>
-											{ec.constituency.name}
+											{ec.description}
 										</option>
 									))}
 								</datalist>
@@ -335,13 +306,11 @@ const Candidates = () => {
 						</div>
 					</div>
 					<button
-						{...getRootProps()}
 						id="btn btn-primary"
 						className="btn btn-primary"
 						onClick={() => handleAddCandidate()}>
 						Agregar candidato
 					</button>
-					<input {...getInputProps()} />
 				</div>
 			) : (
 				<>{progress.msg}</>

@@ -52,7 +52,9 @@ const UserPage = () => {
 	};
 
 	const getUserDetails = (uid) => {
+		console.log(uid);
 		getUser(uid).then((u) => {
+			console.log(u);
 			setUserDetails(u.data);
 			getActiveElectionsUser(u.data).then((e) => {
 				setElections(e);
@@ -69,7 +71,7 @@ const UserPage = () => {
 		return () => {
 			setProgress({
 				...progress,
-				msg: 'Checking is Voter...',
+				msg: 'Verificando si es votante...',
 			});
 			checkIsVoter()
 				.then((v) => {
@@ -246,7 +248,7 @@ const UserPage = () => {
 									className="btn btn-sm btn-warning"
 									onClick={() => handleLogout()}>
 									<i className="fa-solid fa-right-from-bracket"></i>{' '}
-									Logout
+									Cerrar Sesión
 								</button>
 							</div>
 						</div>

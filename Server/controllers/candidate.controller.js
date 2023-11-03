@@ -6,10 +6,8 @@ const fs = require("fs");
 const awsUploadImage = require('../utils/aws-upload-image');
 exports.create = async (req, res) => {
 
-    const { fName, lName, electionId, party, file } = req.body
+    const { fName, lName, electionId, party } = req.body
 
-    console.log(req.files.candidateImage[0].filename)
-    const { createReadStream, mimetype } = await file;
 
     const C = {
         electionId: electionId,
@@ -20,25 +18,17 @@ exports.create = async (req, res) => {
         candidateSymbol: req.files.candidateSymbol[0].filename,
     }
 
-    const extension = mimetype.split('/')[1];
-    const fileName = `candidate/${uuidv4()}.${extension}`;
-    const fileData = createReadStream();
+
 
     try {
-        const awsImage = await awsUploadImage(fileData, fileName);
-        if (!awsImage) {
-            res.status(500).send({ message: 'Error al subir la imagen' })
-        }
 
         Candidate.create(C)
             .then(r => res.send(r))
             .catch(err => {
                 res.status(500).send({ message: err.message || 'Error al crear el candidato' })
             })
-        return res.send({
-            status: true,
-            urlFile: awsImage,
-        })
+
+
     } catch (error) {
         res.status(500).send({ message: error.message || 'Error al crear el candidato' })
     }

@@ -27,7 +27,7 @@ const ResultPage = () => {
 								<tr>
 									<th scope="col">#</th>
 									<th scope="col">Eleccion</th>
-									<th scope="col">Distrito</th>
+									<th scope="col">Descripcion</th>
 									<th scope="col">Ver resultado</th>
 								</tr>
 							</thead>
@@ -39,7 +39,7 @@ const ResultPage = () => {
 											{e.electionId}
 										</td>
 										<td className="election-data">
-											{e.constituency.name}
+											{e.description}
 										</td>
 										<td>
 											<Link

@@ -182,12 +182,10 @@ export const getActiveElectionsUser = async (
 ) => {
 	let elections = [];
 	elections = await getAllElections().then((r) => {
+		console.log(userDetails);
+		console.log(r.data);
 		let allElections = r.data;
-		return allElections.filter(
-			(e, i) =>
-				e.status === true &&
-				e.constituencyId === userDetails.constituencyId
-		);
+		return allElections.filter((e, i) => e.status === true);
 	});
 	return elections;
 };

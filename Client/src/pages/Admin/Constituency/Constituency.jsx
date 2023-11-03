@@ -430,7 +430,7 @@ const Constituency = () => {
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 				<div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800">
 					<div>
-						<button
+						{/* <button
 							id="dropdownActionButton"
 							data-dropdown-toggle="dropdownAction"
 							className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -451,7 +451,7 @@ const Constituency = () => {
 									d="m1 1 4 4 4-4"
 								/>
 							</svg>
-						</button>
+						</button> */}
 
 						<div
 							id="dropdownAction"
@@ -505,25 +505,25 @@ const Constituency = () => {
 				<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 						<tr>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-4 py-3">
 								Recinto
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-4 py-3">
 								Direccion
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-4 py-3">
 								Provincia
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-4 py-3">
 								Cantón
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-4 py-3">
 								Parroquia
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-4 py-3">
 								Junta
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-4 py-3">
 								Acciones
 							</th>
 						</tr>
@@ -533,27 +533,31 @@ const Constituency = () => {
 							<tr
 								key={item.id}
 								className="bg-white text-gray-800 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-								<th className="px-4 py-4">
+								<th className="px-3 py-2">
 									{item.enclosure}
 								</th>
 
-								<td className="px-4 py-4">
+								<td className="px-3 py-2">
 									{item.address}
 								</td>
-								<td className="px-4 py-4">
+								<td className="px-3 py-2">
 									{item.province}
 								</td>
-								<td className="px-4 py-4">
+								<td className="px-3 py-2">
 									{item.district}
 								</td>
-								<td className="px-4 py-4">{item.parish}</td>
-								<td className="px-2 py-4">
+								<td className="px-3 py-2">{item.parish}</td>
+								<td className="px-3 py-2">
 									<div className="flex items-center">
-										<div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{' '}
-										{item.council} - {item.councilGender}
+										{item.council} -{' '}
+										{
+											(item.councilGender = 'Masculino'
+												? 'M'
+												: 'F')
+										}
 									</div>
 								</td>
-								<td className="px-6 py-4">
+								<td className="px-3 py-4">
 									<div className="flex items-center space-x-4 text-sm">
 										<a
 											href="#"
