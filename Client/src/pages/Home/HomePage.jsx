@@ -90,26 +90,46 @@ const HomePage = () => {
 			try {
 				handleVerifyRecaptcha()
 					.then((valid_token) => {
-						registerVoter(voter, valid_token)
+						verifyVoter(voter.userId)
 							.then((r) => {
-								console.log(r);
 								setProgress({
 									...progress,
 									success: true,
-									msg: 'Registro exitoso',
+									prgMsg: 'Votante verificado',
 								});
-								setVoter(Voter);
-								setRegister(false);
 								let i = setInterval(() => {
 									handleCloseProgress();
 									clearInterval(i);
 								}, 3000);
+								// getAllUsers();
+								registerVoter(voter, valid_token)
+									.then((r) => {
+										console.log(r);
+										setProgress({
+											...progress,
+											success: true,
+											msg: 'Registro exitoso',
+										});
+										setVoter(Voter);
+										setRegister(false);
+										let i = setInterval(() => {
+											handleProgressClose();
+											clearInterval(i);
+										}, 3000);
+									})
+									.catch((err) => {
+										setProgress({
+											...progress,
+											warn: true,
+											msg: err,
+										});
+									});
 							})
 							.catch((err) => {
 								setProgress({
 									...progress,
 									warn: true,
-									msg: err,
+									prgMsg: 'Votante no verificado',
 								});
 							});
 					})
@@ -193,11 +213,6 @@ const HomePage = () => {
 			});
 		}
 	};
-
-	function handleCloseProgress() {
-		setProgress(_prg);
-		setShowProgress(false);
-	}
 
 	useEffect(() => {
 		return () => {

@@ -1,6 +1,7 @@
 import Web3Service from './Web3Service';
 import axios from 'axios';
 import {getAllElections} from './AdminService';
+import {saveAs} from 'file-saver';
 
 const API = import.meta.env.VITE_API;
 const ws = new Web3Service();
@@ -8,7 +9,6 @@ const SECRET_KEY = import.meta.env
 	.VITE_GOOGLE_RECAPTCHA_SECRET_KEY;
 
 export const registerVoter = (data, recaptcha) => {
-	console.log(recaptcha);
 	let user = null;
 	return new Promise((resolve, reject) => {
 		axios
@@ -109,21 +109,57 @@ export const vote = (cId, eId) => {
 	});
 };
 
-// export const vote = async (cId, eId) => {
-// 	try {
-// 		const contract = await ws.getContract();
-// 		const account = await ws.getCurrentAccount();
-// 		const result = await contract.methods
-// 			.vote(cId.toString(), eId)
-// 			.send({from: account});
-// 		console.log(result);
-// 		return result;
-// 	} catch (err) {
-// 		// get error message from ws service and return it
-// 		console.log(err);
-// 		throw err;
-// 	}
-// };
+export const createPdf = async (data) => {
+	try {
+		const response = await axios.post(
+			API + '/createPdf',
+			{data: data},
+			{responseType: 'blob'}
+		);
+		const file = new Blob([response.data], {
+			type: 'application/pdf',
+		});
+		const fileURL = URL.createObjectURL(file);
+		return fileURL;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const fetchPdf = async (data) => {
+	try {
+		const response = await axios.get(API + '/fetchPdf', {
+			responseType: 'blob',
+		});
+		const file = new Blob([response.data], {
+			type: 'application/pdf',
+		});
+		saveAs(file, 'certificado.pdf');
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const sendCertificate = async (
+	email,
+	startDate,
+	nationalId
+) => {
+	try {
+		const certificate = await axios.post(
+			API + '/sendCertificate',
+			{email, startDate, nationalId}
+		);
+		if (certificate.data) {
+			return true;
+		}
+
+		return false;
+	} catch (err) {
+		console.log(err);
+		return false;
+	}
+};
 
 export const verifyAge = async (diferenciaAnios) => {
 	try {
@@ -182,8 +218,6 @@ export const getActiveElectionsUser = async (
 ) => {
 	let elections = [];
 	elections = await getAllElections().then((r) => {
-		console.log(userDetails);
-		console.log(r.data);
 		let allElections = r.data;
 		return allElections.filter((e, i) => e.status === true);
 	});

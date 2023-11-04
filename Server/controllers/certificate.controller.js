@@ -1,6 +1,32 @@
 const nodemailer = require('nodemailer');
+const pdf = require('html-pdf')
+const path = require('path')
+const fs = require('fs')
+const pdfTemplate = require("../documents/document");
+const env = require('dotenv')
+env.config()
+
+exports.createPdf = (req, res) => {
+
+    console.log(req.body)
+
+    pdf.create(pdfTemplate(req.body), {}).toFile(`./uploads/certificado_votacion_${req.body.startDate}-${req.body.nationalId}.pdf`, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        res.send('pdf generated')
+    })
+}
+
+exports.fetchPdf = (req, res) => {
+    res.sendFile(path.join(__dirname, `../uploads/certificado_votacion_${req.body.startDate}-${req.body.nationalId}.pdf`))
+}
 
 exports.sendCertificate = (req, res) => {
+
+    pathToAttachment = path.join(__dirname, `../uploads/certificado_votacion_${req.body.startDate}-${req.body.nationalId}.pdf`)
+    attachment = fs.readFileSync(pathToAttachment).toString("base64")
+
 
     const { email, startDate, nationalId } = req.body;
 
@@ -13,6 +39,7 @@ exports.sendCertificate = (req, res) => {
             user: process.env.GMAIL_EMAIL,
             pass: process.env.GMAIL_PASSWORD,
         },
+        tls: { rejectUnauthorized: false }
     });
 
 
@@ -23,8 +50,10 @@ exports.sendCertificate = (req, res) => {
         html: 'Estimado/a, <br><br>Adjunto a este correo encontrará su certificado de votación.<br><br>Saludos cordiales,<br><br>Consejo Nacional Electoral',
         attachments: [
             {
+                content: attachment,
                 filename: `certificado_votacion_${startDate}-${nationalId}.pdf`,
-                path: `./uploads/certificado_votacion_${startDate}-${nationalId}.pdf`,
+                contentType: 'application/pdf',
+                path: pathToAttachment
             }
         ]
     }

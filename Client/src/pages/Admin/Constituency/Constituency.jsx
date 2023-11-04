@@ -8,25 +8,8 @@ import './constituency.css';
 
 const Constituency = () => {
 	const [name, setName] = useState('');
-	const [invalidName, setInvalidName] = useState(true);
-	const [province, setProvince] = useState('');
-	const [invalidProvince, setInvalidProvince] =
-		useState(true);
-	const [canton, setCanton] = useState('');
-	const [invalidCanton, setInvalidCanton] = useState(true);
-	const [recinto, setRecinto] = useState('');
-	const [invalidRecinto, setInvalidRecinto] =
-		useState(true);
-	const [parroquia, setParroquia] = useState('');
-	const [invalidParroquia, setInvalidParroquia] =
-		useState(true);
 
-	const [junta, setJunta] = useState('');
-	const [invalidJunta, setInvalidJunta] = useState(true);
 	const [constituencies, setConstituencies] = useState([]);
-	const [direccion, setDireccion] = useState('');
-	const [invalidDireccion, setInvalidDireccion] =
-		useState(true);
 
 	const handleAddConstituency = () => {
 		if (name !== '') {
@@ -532,7 +515,7 @@ const Constituency = () => {
 						{constituencies.map((item) => (
 							<tr
 								key={item.id}
-								className="bg-white text-gray-800 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+								className="bg-white text-xs text-gray-800 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 								<th className="px-3 py-2">
 									{item.enclosure}
 								</th>
@@ -550,11 +533,9 @@ const Constituency = () => {
 								<td className="px-3 py-2">
 									<div className="flex items-center">
 										{item.council} -{' '}
-										{
-											(item.councilGender = 'Masculino'
-												? 'M'
-												: 'F')
-										}
+										{item.councilGender === 'Masculino'
+											? 'M'
+											: 'F'}
 									</div>
 								</td>
 								<td className="px-3 py-4">
@@ -566,13 +547,16 @@ const Constituency = () => {
 											className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
 											Editar
 										</a>
-										<a
-											href="#"
+										<button
+											onClick={() => deleteConst(item.id)}
 											type="button"
 											data-modal-show="editUserModal"
-											className="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
+											className="font-medium text-blue-600
+											dark:text-blue-500 hover:underline
+											ml-2">
+											{' '}
 											Eliminar
-										</a>
+										</button>
 									</div>
 								</td>
 							</tr>

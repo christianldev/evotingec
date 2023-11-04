@@ -258,7 +258,6 @@ export const verifyVoter = (userId) => {
 	return new Promise((resolve, reject) => {
 		ws.getContract().then((c) => {
 			ws.getCurrentAccount().then((a) => {
-				console.log(userId);
 				c.methods
 					.verifyUser(userId)
 					.send({from: a})

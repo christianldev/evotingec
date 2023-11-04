@@ -118,6 +118,6 @@ exports.delete = (req, res) => {
             res.status(404).send({ "status": `not found constituency with id:id=${id}` })
         }
     }).catch(err => {
-        res.send(500).send({ "error": err.message, "status": `failed deleting constituency with id: ${id}` })
+        res.status(500).send({ "error": err.message, "status": `failed deleting constituency with id: ${id}` })
     })
 }

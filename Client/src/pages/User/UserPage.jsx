@@ -6,9 +6,12 @@ import {
 import CandidateCard from '../../components/CandidateCard';
 import {
 	checkIsVoter,
+	createPdf,
+	fetchPdf,
 	getActiveElectionsUser,
 	getUser,
 	hasVotingEnded,
+	sendCertificate,
 	verifyAge,
 	vote,
 } from '../../services/VoterService';
@@ -54,7 +57,6 @@ const UserPage = () => {
 	const getUserDetails = (uid) => {
 		console.log(uid);
 		getUser(uid).then((u) => {
-			console.log(u);
 			setUserDetails(u.data);
 			getActiveElectionsUser(u.data).then((e) => {
 				setElections(e);
@@ -159,10 +161,31 @@ const UserPage = () => {
 					msg: 'Voto exitoso',
 					success: true,
 				});
+				createPdf(userDetails, r.data)
+					.then((r) => {
+						fetchPdf(r.data)
+							.then((r) => {
+								console.log(r);
+								sendCertificate(r.data)
+									.then((r) => {
+										console.log(r);
+									})
+									.catch((err) => {
+										console.log(err);
+									});
+							})
+							.catch((err) => {
+								console.log(err);
+							});
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+
 				let i = setInterval(() => {
 					closeProgress();
 					clearInterval(i);
-				}, 5000);
+				}, 3000);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -365,7 +388,7 @@ const UserPage = () => {
 									<h1
 										className="modal-title fs-5"
 										id="staticBackdropLabel">
-										Candidates
+										Candidatos
 									</h1>
 									<button
 										type="button"
@@ -390,7 +413,7 @@ const UserPage = () => {
 											))}{' '}
 										</div>
 									) : (
-										<>No Candidates...</>
+										<>No hay candidatos</>
 									)}
 								</div>
 							</div>

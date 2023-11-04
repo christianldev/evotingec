@@ -86,7 +86,7 @@ contract Voting {
     }
 
     function addUser(string memory nationalId, string memory pwd) public {
-        if (adminRole.has(msg.sender)) revert("Connected as Admin");
+        if (adminRole.has(msg.sender)) revert("Sesion iniciada como administrador");
         if (userRole.has(msg.sender)) revert("Already existing user");
 
         User storage user = UsersMap[msg.sender];
