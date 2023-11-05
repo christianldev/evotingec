@@ -71,7 +71,7 @@ exports.create = async (req, res) => {
 
             // create user
             const newUser = await User.create(USER)
-            return res.status(200).send(newUser)
+            return res.status(200).send({ message: 'Usuario creado correctamente' })
 
         }
 

@@ -92,19 +92,19 @@ const HomePage = () => {
 					.then((valid_token) => {
 						verifyVoter(voter.userId)
 							.then((r) => {
+								console.log(r);
 								setProgress({
 									...progress,
 									success: true,
 									prgMsg: 'Votante verificado',
 								});
 								let i = setInterval(() => {
-									handleCloseProgress();
+									handleProgressClose();
 									clearInterval(i);
 								}, 3000);
 								// getAllUsers();
 								registerVoter(voter, valid_token)
 									.then((r) => {
-										console.log(r);
 										setProgress({
 											...progress,
 											success: true,

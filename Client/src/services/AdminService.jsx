@@ -52,7 +52,7 @@ export const addElection = (data) => {
 		axios.post(API + '/election', data).then((r) => {
 			if (r.status === 200) {
 				election = r.data;
-				console.log(election);
+
 				ws.getContract().then((c) => {
 					ws.getCurrentAccount().then((a) => {
 						c.methods
@@ -239,18 +239,47 @@ export const getAllCandidatesByElection = (eId) => {
 
 export const getAllVoters = () => {
 	return new Promise((resolve, reject) => {
-		ws.getContract().then((c) => {
-			c.methods
-				.getUsers()
-				.call()
-				.then((u) => {
-					resolve(u);
-				})
-				.catch((err) => {
-					console.log(err);
-					reject(err);
+		axios
+			.get(API + '/user', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+			.then((r) => {
+				let voters = r.data;
+
+				voters.forEach((v, i) => {
+					ws.getContract().then((c) => {
+						c.methods
+							.getUsers()
+							.call()
+							.then((u) => {
+								u.forEach((us, i) => {
+									if (us.nationalId === v.nationalId) {
+										// join name of voter with user
+										v = {...v, ...us};
+										voters[i] = v;
+
+										if (i === voters.length - 1) {
+											console.log(voters);
+											resolve(voters);
+										}
+									}
+								});
+								// if (i === voters.length - 1) {
+								// 	resolve(voters);
+								// }
+							})
+							.catch((err) => {
+								console.log(err);
+								reject(err);
+							});
+					});
 				});
-		});
+			})
+			.catch((err) => {
+				reject(err);
+			});
 	});
 };
 

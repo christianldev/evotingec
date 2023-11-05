@@ -50,21 +50,21 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to E-VOTING application." });
 });
 
-app.get("/clear", async (req, res) => {
-    let candidates = await db.sequelize.query(
-        'DELETE FROM evotingdb.candidates;'
-    )
-    let elections = await db.sequelize.query(
-        'DELETE FROM evotingdb.elections;'
-    )
-    let constituencies = await db.sequelize.query(
-        'DELETE FROM evotingdb.constituencies;'
-    )
-    let users = await db.sequelize.query(
-        'DELETE FROM evotingdb.users'
-    )
-    res.json({ status: 'success' })
-})
+// app.get("/clear", async (req, res) => {
+//     let candidates = await db.sequelize.query(
+//         'DELETE FROM evotingdb.candidates;'
+//     )
+//     let elections = await db.sequelize.query(
+//         'DELETE FROM evotingdb.elections;'
+//     )
+//     let constituencies = await db.sequelize.query(
+//         'DELETE FROM evotingdb.constituencies;'
+//     )
+//     let users = await db.sequelize.query(
+//         'DELETE FROM evotingdb.users'
+//     )
+//     res.json({ status: 'success' })
+// })
 
 require('./routes/main.routes')(app)
 require('./routes/election.routes')(app)

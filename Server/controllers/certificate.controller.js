@@ -10,7 +10,7 @@ exports.createPdf = (req, res) => {
 
     console.log(req.body)
 
-    pdf.create(pdfTemplate(req.body), {}).toFile(`./uploads/certificado_votacion_${req.body.startDate}-${req.body.nationalId}.pdf`, (err) => {
+    pdf.create(pdfTemplate(req), {}).toFile(`./uploads/certificado_votacion_${req.body.startDate}-${req.body.nationalId}.pdf`, (err) => {
         if (err) {
             console.log(err);
         }
