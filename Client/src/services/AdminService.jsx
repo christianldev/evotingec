@@ -261,7 +261,6 @@ export const getAllVoters = () => {
 										voters[i] = v;
 
 										if (i === voters.length - 1) {
-											console.log(voters);
 											resolve(voters);
 										}
 									}
@@ -284,20 +283,26 @@ export const getAllVoters = () => {
 };
 
 export const verifyVoter = (userId) => {
+	console.log(userId);
 	return new Promise((resolve, reject) => {
-		ws.getContract().then((c) => {
-			ws.getCurrentAccount().then((a) => {
-				c.methods
-					.verifyUser(userId)
-					.send({from: a})
-					.on('confirmation', (r) => {
-						resolve(r);
-					})
-					.on('error', (err) => {
-						reject(err);
-					});
+		try {
+			ws.getContract().then((c) => {
+				ws.getCurrentAccount().then((a) => {
+					c.methods
+						.verifyUser(userId)
+						.send({from: a})
+						.on('confirmation', (r) => {
+							resolve(r);
+						})
+						.on('error', (err) => {
+							reject(err);
+						});
+				});
 			});
-		});
+		} catch (err) {
+			console.log(err);
+			reject(err);
+		}
 	});
 };
 

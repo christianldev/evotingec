@@ -83,41 +83,36 @@ const Voters = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{voters.map(
-								(v, i) => (
-									console.log(v),
-									(
-										<tr key={i}>
-											<th scope="row">{i + 1}</th>
-											<td className="election-data">
-												{v.fName}
-											</td>
-											<td className="election-data">
-												{v.nationalId}
-											</td>
-											<td>
-												{v.isActive ? (
-													<button
-														className="btn btn-sm btn-dark"
-														disabled>
-														{' '}
-														Verified
-													</button>
-												) : (
-													<button
-														className="btn btn-sm btn-success"
-														onClick={() =>
-															handleVoterVerify(v)
-														}>
-														<i className="fa-solid fa-user-check"></i>
-														&nbsp; Verify
-													</button>
-												)}
-											</td>
-										</tr>
-									)
-								)
-							)}
+							{voters.map((v, i) => (
+								<tr key={i}>
+									<th scope="row">{i + 1}</th>
+									<td className="election-data">
+										{v.fName}
+									</td>
+									<td className="election-data">
+										{v.nationalId}
+									</td>
+									<td>
+										{v.isActive ? (
+											<button
+												className="btn btn-sm btn-dark"
+												disabled>
+												{' '}
+												Verified
+											</button>
+										) : (
+											<button
+												className="btn btn-sm btn-success"
+												onClick={() =>
+													handleVoterVerify(v)
+												}>
+												<i className="fa-solid fa-user-check"></i>
+												&nbsp; Verify
+											</button>
+										)}
+									</td>
+								</tr>
+							))}
 						</tbody>
 					</table>
 				) : (

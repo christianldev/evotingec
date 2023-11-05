@@ -90,38 +90,38 @@ const HomePage = () => {
 			try {
 				handleVerifyRecaptcha()
 					.then((valid_token) => {
-						verifyVoter(voter.userId)
+						// getAllUsers();
+						registerVoter(voter, valid_token)
 							.then((r) => {
-								console.log(r);
 								setProgress({
 									...progress,
 									success: true,
-									prgMsg: 'Votante verificado',
+									msg: 'Registro exitoso',
 								});
-								let i = setInterval(() => {
-									handleProgressClose();
-									clearInterval(i);
-								}, 3000);
-								// getAllUsers();
-								registerVoter(voter, valid_token)
+								setVoter(Voter);
+								setRegister(false);
+								// let i = setInterval(() => {
+								// 	handleProgressClose();
+								// 	clearInterval(i);
+								// }, 3000);
+								verifyVoter(voter.userId)
 									.then((r) => {
+										console.log(r);
 										setProgress({
 											...progress,
 											success: true,
-											msg: 'Registro exitoso',
+											prgMsg: 'Votante verificado',
 										});
-										setVoter(Voter);
-										setRegister(false);
 										let i = setInterval(() => {
 											handleProgressClose();
 											clearInterval(i);
-										}, 3000);
+										}, 5000);
 									})
 									.catch((err) => {
 										setProgress({
 											...progress,
 											warn: true,
-											msg: err,
+											prgMsg: 'Votante no verificado',
 										});
 									});
 							})
@@ -129,7 +129,7 @@ const HomePage = () => {
 								setProgress({
 									...progress,
 									warn: true,
-									prgMsg: 'Votante no verificado',
+									msg: err,
 								});
 							});
 					})
@@ -153,7 +153,6 @@ const HomePage = () => {
 	};
 
 	const handleLogin = (login) => {
-		console.log(login);
 		setShowProgress(true);
 		if (login.nationalId !== '' && login.password !== '') {
 			setProgress({...progress, msg: 'Validando...'});

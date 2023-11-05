@@ -129,6 +129,8 @@ const UserPage = () => {
 		const result = await verifyAge(diferenciaAnios);
 		const EndVotation = await hasVotingEnded(votingEndTime);
 
+		console.log(result);
+
 		if (!result) {
 			setProgress({
 				...progress,
