@@ -67,7 +67,7 @@ const HomePage = () => {
 				setSuccessMsg(
 					'Has sido verificado, puedes continuar'
 				);
-				console.log(token);
+
 				return token;
 			} else {
 				console.log('No verificado');
@@ -100,10 +100,7 @@ const HomePage = () => {
 								});
 								setVoter(Voter);
 								setRegister(false);
-								// let i = setInterval(() => {
-								// 	handleProgressClose();
-								// 	clearInterval(i);
-								// }, 3000);
+
 								verifyVoter(voter.userId)
 									.then((r) => {
 										console.log(r);
@@ -156,27 +153,6 @@ const HomePage = () => {
 		setShowProgress(true);
 		if (login.nationalId !== '' && login.password !== '') {
 			setProgress({...progress, msg: 'Validando...'});
-
-			// verifyVoter(voter.userId)
-			// 	.then((r) => {
-			// 		setProgress({
-			// 			...progress,
-			// 			success: true,
-			// 			prgMsg: 'Votante verificado',
-			// 		});
-			// 		let i = setInterval(() => {
-			// 			handleCloseProgress();
-			// 			clearInterval(i);
-			// 		}, 3000);
-			// 		getAllUsers();
-			// 	})
-			// 	.catch((err) => {
-			// 		setProgress({
-			// 			...progress,
-			// 			warn: true,
-			// 			prgMsg: 'Votante no verificado',
-			// 		});
-			// 	});
 
 			voterLogin(login)
 				.then((r) => {

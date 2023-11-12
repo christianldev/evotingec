@@ -3,15 +3,11 @@ const cors = require("cors");
 const dotenv = require('dotenv');
 const session = require('express-session')
 const displayRoutes = require('express-routemap');
-const path = require('path')
 
 
 
 // Load environment variables from .env file
-dotenv.config({
-    path: path.resolve(path.dirname('/'), `${process.env.NODE_ENV}.env`),
-}
-);
+global.__basedir = __dirname;
 
 const app = express();
 
@@ -23,6 +19,8 @@ app.use(
     })
 );
 
+// Load environment variables from .env file
+dotenv.config();
 
 const corsOptions = {
     origin: "http://localhost:5173",

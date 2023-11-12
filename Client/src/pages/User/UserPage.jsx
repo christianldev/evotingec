@@ -55,7 +55,6 @@ const UserPage = () => {
 	};
 
 	const getUserDetails = (uid) => {
-		console.log(uid);
 		getUser(uid).then((u) => {
 			setUserDetails(u.data);
 			getActiveElectionsUser(u.data).then((e) => {
@@ -128,8 +127,6 @@ const UserPage = () => {
 
 		const result = await verifyAge(diferenciaAnios);
 		const EndVotation = await hasVotingEnded(votingEndTime);
-
-		console.log(result);
 
 		if (!result) {
 			setProgress({
@@ -329,7 +326,7 @@ const UserPage = () => {
 												<tr>
 													<th scope="col">#</th>
 													<th scope="col">Election Id</th>
-													{/*<th scope="col">Constituency</th>*/}
+													<th scope="col">Descripcion</th>
 													<th scope="col">Action</th>
 												</tr>
 											</thead>
@@ -343,7 +340,9 @@ const UserPage = () => {
 															<td className="election-data">
 																{election.electionId}
 															</td>
-															{/*<td className="election-data">{getConstituencyName(election.constituencyId)}</td>*/}
+															<td className="election-data">
+																{election.description}
+															</td>
 															<td className="election-data">
 																<button
 																	className="btn bn-sm btn-dark btn-w-80"

@@ -401,9 +401,11 @@ export const formatDate = (dateString) => {
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
+		hour: 'numeric',
+		minute: 'numeric',
 	};
 	return new Date(dateString).toLocaleDateString(
-		[],
+		undefined,
 		options
 	);
 };

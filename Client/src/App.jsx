@@ -14,7 +14,6 @@ function App() {
 			let ws = new Web3Service();
 			ws.getWeb3()
 				.then((w) => {
-					// console.log(w)
 					if (w === undefined)
 						setPrgMsg('Instala Metamask para continuar');
 				})
@@ -23,7 +22,6 @@ function App() {
 				});
 			ws.getContract()
 				.then((c) => {
-					// console.log(c)
 					if (c != null) {
 						setIsConnected(true);
 					}

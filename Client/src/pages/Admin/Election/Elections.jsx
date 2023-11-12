@@ -39,7 +39,8 @@ const Elections = (src, options) => {
 
 	const getElections = () => {
 		getAllElections().then((r) => {
-			// console.log(r)
+			console.log(r);
+
 			setElections(r.data);
 		});
 	};
@@ -337,28 +338,19 @@ const Elections = (src, options) => {
 										</div>
 									</td>
 									<td>
-										{candidates.length >= 2 ? (
-											<button
-												className="btn btn-sm btn-outline-primary"
-												onClick={() =>
-													handleGenerateElectionReport(
-														election.electionId
-													)
-												}
-												// target="_blank"
-												// to={`/report/${election.electionId}`}
-											>
-												<i className="fa-solid fa-file-pdf"></i>{' '}
-												Generar
-											</button>
-										) : (
-											<button
-												className="btn btn-sm btn-outline-primary"
-												disabled>
-												<i className="fa-solid fa-file-pdf"></i>{' '}
-												Generar
-											</button>
-										)}
+										<button
+											className="btn btn-sm btn-outline-primary"
+											onClick={() =>
+												handleGenerateElectionReport(
+													election.electionId
+												)
+											}
+											// target="_blank"
+											// to={`/report/${election.electionId}`}
+										>
+											<i className="fa-solid fa-file-pdf"></i>{' '}
+											Generar
+										</button>
 									</td>
 								</tr>
 							))
@@ -401,16 +393,16 @@ const Elections = (src, options) => {
 						<div className="modal-footer">
 							<button
 								type="button"
-								className="btn btn-secondary"
+								className="bg-gray-600 hover:bg-gray-800 text-white px-3 py-1 rounded-2"
 								data-bs-dismiss="modal"
 								onClick={() => eModal.hide()}>
-								Close
+								Cerrar
 							</button>
 							<button
 								type="button"
-								className="btn btn-primary"
+								className="bg-blueSecondary hover:bg-blue-700 text-white px-3 py-1 rounded-2"
 								onClick={() => handleAddElection()}>
-								Save
+								Guardar
 							</button>
 						</div>
 					</div>

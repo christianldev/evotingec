@@ -24,7 +24,7 @@ exports.create = (req, res) => {
         description,
         startDate: startDate,
         endDate: endDate,
-        status: true,
+        status: false,
         result: false,
         deleteStatus: false
     }
@@ -113,7 +113,7 @@ exports.findElectionByEId = (req, res) => {
         console.log(r.dataValues)
         let election = r.dataValues
         Constituency.findOne({ where: { electionId: election.electionId } }).then(r => {
-
+            console.log(r)
             election.constituency = r.dataValues
             res.send(election)
         })
