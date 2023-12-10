@@ -156,6 +156,7 @@ const HomePage = () => {
 
 			voterLogin(login)
 				.then((r) => {
+					console.log(r);
 					setProgress({
 						...progress,
 						success: true,

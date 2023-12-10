@@ -10,6 +10,7 @@ const SECRET_KEY = import.meta.env
 
 export const registerVoter = (data, recaptcha) => {
 	let user = null;
+
 	return new Promise((resolve, reject) => {
 		axios
 			.post(API + '/user', {

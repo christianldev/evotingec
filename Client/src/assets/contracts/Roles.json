@@ -1137,12 +1137,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x72F7A4fb5a756837651157EC988e02408F5F4764",
-      "transactionHash": "0xfe30fd117639bdc62aa5f56c78b0a9dd1e07737999a325fe8eb992a90462b0bf"
+      "address": "0x761F7cd28A4d60Fa3375416F01db79fdB1D62947",
+      "transactionHash": "0xe9fc8d8fb8e92f0acf10ea288ef54c3783e072c919a5893836d8be6f8e74bd36"
     }
   },
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-10-25T01:49:23.130Z",
+  "updatedAt": "2023-11-13T01:48:06.033Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Library for managing addresses assigned to a Role.",

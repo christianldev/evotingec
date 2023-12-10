@@ -15,7 +15,7 @@ contract Voting {
     struct User {
         address key;
         string nationalId;
-        string pwd;
+        bytes32 pwd;
         uint age;
         bool isActive;
     }
@@ -92,7 +92,8 @@ contract Voting {
         User storage user = UsersMap[msg.sender];
         user.nationalId = nationalId;
         user.key = msg.sender;
-        user.pwd = pwd;
+          // store the pwd in hashed form to avoid storing it in plain text
+        user.pwd = keccak256(abi.encodePacked(pwd));
         user.isActive = false;
 
         users.push(msg.sender);
@@ -105,15 +106,14 @@ contract Voting {
     }
 
     function login(string memory nationalId, string memory pwd) public view returns (User memory){
-        require(!adminRole.has(msg.sender), "Connected as Admin");
+        require(!adminRole.has(msg.sender), "Conectado como administrador");
         require(userRole.has(msg.sender), "No se encuentra registrado");
 
         User memory user = UsersMap[msg.sender];
 
         if (keccak256(abi.encodePacked(user.nationalId)) ==
         keccak256(abi.encodePacked(nationalId)) &&
-            keccak256(abi.encodePacked(user.pwd)) ==
-            keccak256(abi.encodePacked(pwd)))
+            keccak256(abi.encodePacked(pwd)) == user.pwd)
             return user;
         return UsersMap[address(0)];
     }

@@ -44,10 +44,10 @@ exports.create = async (req, res) => {
 
         const constituencyCouncil = await ConstituencyCouncil.findOne({ where: { councilId } })
 
-        if (constituencyCouncil) {
-            res.status(400).send({ message: 'Error, el consejo ya esta asignado a un padron' })
-            return
-        }
+        // if (constituencyCouncil) {
+        //     res.status(400).send({ message: 'Error, el consejo ya esta asignado a un padron' })
+        //     return
+        // }
 
 
 

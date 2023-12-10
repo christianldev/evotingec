@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-exports.sendMail = (req, res) => {
+exports.sendMail = async (req, res) => {
 
     const { email } = req.body;
 
@@ -32,7 +32,7 @@ exports.sendMail = (req, res) => {
         };
 
         // Send the verification email
-        transporter.sendMail(mailOptions, (error, info) => {
+        const response = await transporter.sendMail(mailOptions, (error, info) => {
 
             if (error) {
 

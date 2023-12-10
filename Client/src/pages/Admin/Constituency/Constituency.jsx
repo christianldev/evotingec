@@ -5,17 +5,31 @@ import {
 	getAllConstituencies,
 } from '../../../services/AdminService.jsx';
 import './constituency.css';
+import ProgressComponent from '../../../components/ProgressComponent.jsx';
 
 const Constituency = () => {
+	let Progress = {
+		success: false,
+		warn: false,
+		msg: 'Cargando...',
+	};
 	const [name, setName] = useState('');
 
 	const [constituencies, setConstituencies] = useState([]);
+	const [showProgress, setShowProgress] = useState(false);
+	const [eModal, setEModal] = useState('');
+	const [progress, setProgress] = useState(Progress);
 
 	const handleAddConstituency = () => {
+		eModal.hide();
+		setShowProgress(true);
 		if (name !== '') {
+			setProgress({
+				...progress,
+				msg: 'Agregando padrón electoral',
+			});
 			addConstituency({name: name})
 				.then((res) => {
-					console.log('added constituency');
 					getAllConstituency();
 					setName('');
 					setProvince('');
@@ -24,18 +38,17 @@ const Constituency = () => {
 					setParroquia('');
 					setJunta('');
 					setDireccion('');
+					closeProgress();
 				})
 				.catch((err) => {
 					console.log(err);
 				});
 		} else {
-			setInvalidName(true);
-			setInvalidProvince(true);
-			setInvalidCanton(true);
-			setInvalidRecinto(true);
-			setInvalidParroquia(true);
-			setInvalidJunta(true);
-			setInvalidDireccion(true);
+			setProgress({
+				...progress,
+				warn: true,
+				msg: 'Falta llenar campos',
+			});
 		}
 	};
 
@@ -61,9 +74,17 @@ const Constituency = () => {
 			});
 	}
 
+	function closeProgress() {
+		setProgress(Progress);
+		setShowProgress(false);
+	}
+
 	useEffect(() => {
 		return () => {
-			getAllConstituency();
+			getAllConstituencies().then((r) => {
+				setConstituencies(r.data);
+				setEModal(new bootstrap.Modal('#e-modal'));
+			});
 		};
 	}, []);
 
@@ -409,69 +430,34 @@ const Constituency = () => {
 					</button>
 				</div>
 			</form> */}
-
+			{showProgress ? (
+				<ProgressComponent
+					success={progress.success}
+					warn={progress.warn}
+					msg={progress.msg}
+					onClose={() => closeProgress()}
+				/>
+			) : null}
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 				<div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800">
 					<div>
-						{/* <button
-							id="dropdownActionButton"
-							data-dropdown-toggle="dropdownAction"
-							className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-							type="button">
-							<span className="sr-only">Action button</span>
-							Action
+						<button
+							className="inline-flex items-center text-gray-500 bg-blueSecondary border  focus:outline-none hover:bg-blue-600 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+							onClick={() => handleAddConstituency()}>
+							Agregar padrón
 							<svg
-								className="w-2.5 h-2.5 ml-2.5"
-								aria-hidden="true"
 								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 10 6">
-								<path
-									stroke="currentColor"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="m1 1 4 4 4-4"
-								/>
+								x="0px"
+								y="0px"
+								className="w-5 h-5 ml-2"
+								viewBox="0,0,256,256">
+								<g fill="#ffffff" fillRule="nonzero">
+									<g transform="scale(5.12,5.12)">
+										<path d="M25,2c-12.6907,0 -23,10.3093 -23,23c0,12.69071 10.3093,23 23,23c12.69071,0 23,-10.30929 23,-23c0,-12.6907 -10.30929,-23 -23,-23zM25,4c11.60982,0 21,9.39018 21,21c0,11.60982 -9.39018,21 -21,21c-11.60982,0 -21,-9.39018 -21,-21c0,-11.60982 9.39018,-21 21,-21zM24,13v11h-11v2h11v11h2v-11h11v-2h-11v-11z"></path>
+									</g>
+								</g>
 							</svg>
-						</button> */}
-
-						<div
-							id="dropdownAction"
-							className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-							<ul
-								className="py-1 text-sm text-gray-700 dark:text-gray-200"
-								aria-labelledby="dropdownActionButton">
-								<li>
-									<a
-										href="#"
-										className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-										Reward
-									</a>
-								</li>
-								<li>
-									<a
-										href="#"
-										className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-										Promote
-									</a>
-								</li>
-								<li>
-									<a
-										href="#"
-										className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-										Activate account
-									</a>
-								</li>
-							</ul>
-							<div className="py-1">
-								<a
-									href="#"
-									className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-									Delete User
-								</a>
-							</div>
-						</div>
+						</button>
 					</div>
 					<label htmlFor="table-search" className="sr-only">
 						Search
@@ -563,6 +549,66 @@ const Constituency = () => {
 						))}
 					</tbody>
 				</table>
+
+				{/* Add Constituency Modal */}
+
+				<div
+					className="modal fade"
+					data-bs-backdrop="static"
+					data-bs-keyboard="false"
+					tabIndex="-1"
+					id="e-modal"
+					aria-labelledby="staticBackdropLabel"
+					aria-hidden="true">
+					<div className="modal-dialog">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h1
+									className="modal-title fs-5"
+									id="staticBackdropLabel">
+									Agregar Eleccion
+								</h1>
+								<button
+									type="button"
+									className="btn-close"
+									data-bs-dismiss="modal">
+									X
+								</button>
+							</div>
+							<div className="modal-body">
+								<div className="mb-3">
+									<label htmlFor="name">Nombre</label>
+									<input
+										type="text"
+										className="form-control"
+										id="name"
+										placeholder="Nombre de eleccion"
+										value={name}
+										onChange={(e) =>
+											setName(e.target.value)
+										}
+									/>
+								</div>
+							</div>
+
+							<div className="modal-footer">
+								<button
+									type="button"
+									className="bg-gray-600 hover:bg-gray-800 text-white px-3 py-1 rounded-2"
+									data-bs-dismiss="modal"
+									onClick={() => eModal.hide()}>
+									Cerrar
+								</button>
+								<button
+									type="button"
+									className="bg-blueSecondary hover:bg-blue-700 text-white px-3 py-1 rounded-2"
+									onClick={() => handleAddElection()}>
+									Guardar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<div
 					id="editUserModal"

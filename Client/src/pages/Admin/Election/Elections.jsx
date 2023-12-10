@@ -68,6 +68,7 @@ const Elections = (src, options) => {
 				...progress,
 				msg: 'Agregando eleccion...',
 			});
+			console.log(election);
 			addElection(election).then((r) => {
 				if (r) {
 					setProgress({
